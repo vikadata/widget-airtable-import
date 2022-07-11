@@ -1,14 +1,15 @@
 import { Button, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { IFormData, IRecords } from '../types';
+import { IFieldMap, IFormData, IRecords } from '../types';
 import styles from './index.css';
 import { getFields } from '../utils';
 import { toPairs } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
+import { useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
 
 interface IChooseField {
   formData: IFormData;
@@ -20,11 +21,23 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   const { isLoading, data, error } = useQuery<IRecords, Error>('records', async () =>
     await getRecords(formData.apiKey, formData.baseId, formData.tableId)
   );
+  const datasheet = useDatasheet();
 
-  const fieldMap = useMemo(() => {
-    return getFields(data?.records)
-  }, [data?.records]);
-   
+  const [fieldMap, setFieldMap, editable] = useCloudStorage<IFieldMap>(`airtable-import-fields-${datasheet?.datasheetId}`, {});
+
+  useEffect(() => {
+    const field = getFields(data?.records);
+    setFieldMap(field);
+  }, [data?.records])
+
+  if (!editable) {
+    return (
+      <div>
+        无编辑权限
+      </div>
+    )
+  }
+
   if (isLoading) return (
     <div>
       加载中...
@@ -41,7 +54,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     setStep(2);
   }
 
-  console.log('=====', step, fieldMap);
+  console.log('=====', data, fieldMap);
 
   if (step === 2) {
     return <AirTableImport fieldMap={fieldMap} records={data?.records} />
@@ -66,6 +79,12 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
               <div className={styles.fieldListItemLeft}>{fieldKey}</div>
               <TypeSelect
                 value={fieldType[0]}
+                setValue={(val) => {
+                  setFieldMap({
+                    ...fieldMap,
+                    [fieldKey]: [val, fieldType[1]]
+                  })
+                }}
               />
             </div>
           )

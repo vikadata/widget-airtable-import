@@ -1,10 +1,8 @@
-import { IRecord } from '../types';
+import { IFieldMap, IRecord } from '../types';
 import { set, toPairs, union } from 'lodash';
 import { FieldType } from '@vikadata/widget-sdk';
 
-export const getFields = (records?: IRecord[]): {
-  [key: string]: [FieldType, string[]];
-} => {
+export const getFields = (records?: IRecord[]): IFieldMap => {
 
   if (!records) return {};
 
@@ -15,8 +13,12 @@ export const getFields = (records?: IRecord[]): {
         pre[fieldKey] = [type, []];
       }
       // 收集多选默认值，在 addField 时添加默认选项
+      // fieldValue 为数组
       if (pre[fieldKey][0] === FieldType.MultiSelect) {
         const defaultOptions = union(pre[fieldKey][1], fieldValue);
+        set(pre[fieldKey], 1, defaultOptions);
+      } else { // fieldValue 为字符创
+        const defaultOptions = union(pre[fieldKey][1], [fieldValue]);
         set(pre[fieldKey], 1, defaultOptions);
       }
     });

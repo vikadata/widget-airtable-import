@@ -14,6 +14,12 @@ export const addField = async (fieldMap: {
       }
     }
     console.log(fieldKey, fieldType, property);
-    datasheet.addField(fieldKey, fieldType, property)
+    const check = datasheet.checkPermissionsForAddField(fieldKey, fieldType, property);
+    console.log('check', check)
+    if (check.acceptable) {
+      datasheet.addField(fieldKey, fieldType, property);
+    } else {
+      console.error(`列 ${fieldKey} 添加失败：${check.message}`);
+    }
   }))
 }

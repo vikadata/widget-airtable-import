@@ -3,8 +3,9 @@ import { FieldType, useDatasheet } from '@vikadata/widget-sdk';
 import React, { useState } from 'react';
 import { useEffect } from 'react'
 import { IRecord } from '../types';
-import { addField } from '../utils';
+import { addField, sleep } from '../utils';
 import { AddRecord } from './add-record';
+import style from './index.css';
 
 interface IAirTableImport {
   fieldMap: {
@@ -22,9 +23,8 @@ export const AirTableImport: React.FC<IAirTableImport> = props => {
     setImporting(true);
     const sync = async () => {
       await addField(fieldMap, datasheet);
-      setTimeout(() => {
-        setImporting(false);
-      }, 500);
+      await sleep(500);
+      setImporting(false);
     }
     sync();
   }, [])
@@ -32,8 +32,8 @@ export const AirTableImport: React.FC<IAirTableImport> = props => {
     return <AddRecord records={records} />
   }
   return (
-    <div>
-      <Typography variant="body3">
+    <div className={style.importAddField}>
+      <Typography variant="h3">
         正在创建列...
       </Typography>
     </div>
