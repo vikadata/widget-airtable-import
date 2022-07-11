@@ -1,0 +1,11 @@
+.formInput {
+  margin-top: 24px;
+}
+
+.formInput .label {
+  margin-bottom: 4px;
+}
+
+.formInput .required {
+  color: var(--textDangerDefault);
+}

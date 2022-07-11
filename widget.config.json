@@ -1,0 +1,17 @@
+{
+  "packageId": "wpkz6C07DNYug",
+  "spaceId": "spczxAHlFydX0",
+  "entry": "./src/index.tsx",
+  "name": {
+    "zh-CN": "airtableImport",
+    "en-US": "airtableImport"
+  },
+  "icon": "./package_icon.png",
+  "cover": "./cover.png",
+  "authorIcon": "./author_icon.png",
+  "description": {
+    "zh-CN": "airtableImport 的描述",
+    "en-US": "airtableImport description"
+  },
+  "sandbox": true
+}

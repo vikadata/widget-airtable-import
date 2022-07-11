@@ -1,0 +1,14 @@
+.importMain {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.importMain .error {
+  color: var(--textDangerDefault);
+  display: flex;
+  align-items: center;
+}
+
+.importMain .title {
+  margin-bottom: 24px;
+}
