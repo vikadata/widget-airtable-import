@@ -3,10 +3,11 @@
   text-align: center;
 }
 
-.importMain .error {
+.importMain .importMainError {
   color: var(--textDangerDefault);
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .importMain .title {

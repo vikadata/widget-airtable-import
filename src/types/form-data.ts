@@ -1,3 +1,5 @@
+import { Object } from 'ts-toolbelt';
+
 export enum IFormName {
   ApiKey = 'apiKey',
   BaseId = 'baseId',
@@ -11,3 +13,7 @@ export interface IFormData {
   [IFormName.TableId]: string;
   [IFormName.ViewId]?: string;
 }
+
+export type IError = Object.Optional<IFormData>;
+
+

@@ -8,14 +8,13 @@ import { validateConfig } from './utils';
 import { ChooseField } from './choose-field';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { Context } from './context';
+import { isEmpty } from 'lodash';
 
 const queryClient = new QueryClient();
 
 export const Main: React.FC = () => {
   const [isSettingOpened, toggleSettings] = useSettingsButton();
-  if (isSettingOpened) {
-    return <Setting />
-  }
+
   const datasheet = useDatasheet();
   const [formData] = useCloudStorage<IFormData>(`airtable-import-${datasheet?.datasheetId}`, {
     apiKey: '',
@@ -24,9 +23,14 @@ export const Main: React.FC = () => {
   });
 
   const [step, setStep] = useState(0);
-  const isValid = validateConfig(formData);
+  const errors = validateConfig(formData);
+  const isValid = isEmpty(errors);
   const handleNext = () => {
     setStep(step + 1);
+  }
+
+  if (isSettingOpened) {
+    return <Setting errors={errors} />
   }
 
   return (
@@ -39,7 +43,7 @@ export const Main: React.FC = () => {
         {step === 0 && (
           <div className={styles.importMain}>
             {!isValid && (
-              <div className={styles.error}>
+              <div className={styles.importMainError}>
                 请先补全配置 <LinkButton component="button" onClick={() => toggleSettings()} >修改配置</LinkButton>
               </div>
             )}

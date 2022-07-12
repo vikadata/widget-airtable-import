@@ -1,15 +1,16 @@
-import { Button, Typography } from '@vikadata/components';
+import { Button, IconButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
 import React, { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { IFieldMap, IFormData, IRecords } from '../types';
 import styles from './index.css';
 import { getFields } from '../utils';
-import { toPairs } from 'lodash';
+import { omit, toPairs } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
 import { useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
+import { TitleRecycleClosedFilled } from '@vikadata/icons';
 
 interface IChooseField {
   formData: IFormData;
@@ -39,13 +40,13 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   }
 
   if (isLoading) return (
-    <div>
-      加载中...
+    <div className={styles.chooseFieldLoading}>
+      获取 Airtable 数据中...
     </div>
   );
 
   if (error) return (
-    <div>
+    <div className={styles.chooseFieldError}>
       An error has occurred: {error}
     </div>
   )
@@ -76,7 +77,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
           return (
             <div key={index} className={styles.fieldListItem}>
-              <div className={styles.fieldListItemLeft}>{fieldKey}</div>
+              <div>{fieldKey}</div>
               <TypeSelect
                 value={fieldType[0]}
                 setValue={(val) => {
@@ -84,6 +85,15 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
                     ...fieldMap,
                     [fieldKey]: [val, fieldType[1]]
                   })
+                }}
+              />
+              <IconButton
+                className={styles.fieldListItemDelete}
+                icon={TitleRecycleClosedFilled}
+                shape="square"
+                onClick={() => {
+                  const newFieldMap = omit(fieldMap, fieldKey);
+                  setFieldMap(newFieldMap);
                 }}
               />
             </div>

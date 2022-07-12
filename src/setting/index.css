@@ -3,11 +3,6 @@
   width: 360px;
 }
 
-.setting .error {
-  margin-top: 24px;
-  color: var(--textDangerDefault);
-}
-
 .setting .formSetting {
   margin-bottom: 40px;
 }
