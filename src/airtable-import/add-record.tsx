@@ -34,7 +34,6 @@ export const AddRecord: React.FC<IAddRecord> = props => {
               newRecord[field.id] = recordValue;
             }
           }
-          console.log('newRecord', newRecord);
           await datasheet?.addRecord(newRecord);
           await sleep(300);
           countRef.current++;

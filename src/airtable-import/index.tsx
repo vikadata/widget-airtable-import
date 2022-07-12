@@ -1,16 +1,14 @@
 import { Typography } from '@vikadata/components';
-import { FieldType, useDatasheet } from '@vikadata/widget-sdk';
+import { useDatasheet } from '@vikadata/widget-sdk';
 import React, { useState } from 'react';
 import { useEffect } from 'react'
-import { IRecord } from '../types';
+import { IFieldMap, IRecord } from '../types';
 import { addField, sleep } from '../utils';
 import { AddRecord } from './add-record';
 import style from './index.css';
 
 interface IAirTableImport {
-  fieldMap: {
-    [key: string]: [FieldType, string[]]
-  };
+  fieldMap: IFieldMap;
   records?: IRecord[] 
 }
 
