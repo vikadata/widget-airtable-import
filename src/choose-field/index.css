@@ -1,6 +1,6 @@
 .chooseField {
-  width: 760px;
-  padding: 24px 0;
+  max-width: 760px;
+  padding: 24px 16px;
   margin: 0 auto; 
   height: 100%;
 }
@@ -21,7 +21,7 @@
   border-radius: 8px;
   margin-top: 32px;
   margin-bottom: 32px;
-  height: calc(100% - 160px);
+  max-height: calc(100% - 160px);
   overflow: auto;
 }
 
@@ -43,4 +43,16 @@
 
 .fieldListItem > div:last-child {
   flex: none;
+}
+
+.funcAlert {
+  position: fixed;
+  z-index: 10;
+  right: 24px;
+  top: 16px;
+}
+
+.chooseFieldAction {
+  display: flex;
+  justify-content: space-between;
 }

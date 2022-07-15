@@ -1,0 +1,76 @@
+{
+  "strings": {
+    "start_import": {
+			"zh_CN": "开始导入",
+			"en_US": "Start import"
+		},
+    "start_import_title": {
+			"zh_CN": "点击下方按钮或展开小程序即可开始导入 Airtable 数据",
+			"en_US": "Click the button below or expand the applet to start importing airtable data"
+		},
+    "setting_title": {
+			"zh_CN": "请前往 Airtable 获取下方参数信息",
+			"en_US": "Please go to airtable to get the parameter information below"
+		},
+    "update_setting": {
+      "zh_CN": "修改配置",
+			"en_US": "Update setting"
+    },
+    "setting_valid": {
+      "zh_CN": "请先补全配置",
+			"en_US": "Please complete the configuration first"
+    },
+    "placeholder": {
+			"zh_CN": "请输入内容",
+			"en_US": "Please enter the content"
+		},
+    "optional": {
+      "zh_CN": "可选",
+			"en_US": "Optional"
+    },
+    "choose_field_type": {
+      "zh_CN": "请选择字段类型",
+			"en_US": "Please select a field type"
+    },
+    "form_valid": {
+      "zh_CN": "请填写正确的",
+      "en_US": "Please fill in the correct"
+    },
+    "no_edit_permission": {
+      "zh_CN": "无编辑权限",
+      "en_US": "No editing permission"
+    },
+    "over_200_fields": {
+      "zh_CN": "超出200列了，禁止导入",
+      "en_US": "More than 200 fields, import forbidden"
+    },
+    "get_data": {
+      "zh_CN": "获取 Airtable 数据中",
+      "en_US": "Getting airtable data"
+    },
+    "field_edit_title": {
+      "zh_CN": "请为下面待导入的 Airtable 字段选择字段类型，导入完成后将在维格表中创建相应的字段并填充对应的数据",
+			"en_US": "Please select the field type for the airtable field to be imported below. After importing, the corresponding field will be created in the vika table and the corresponding data will be filled"
+    },
+    "pre_field_name": {
+      "zh_CN": "待导入的字段名",
+			"en_US": "Field name to be imported"
+    },
+    "field_type": {
+      "zh_CN": "字段类型",
+			"en_US": "Field type"
+    },
+    "pre": {
+      "zh_CN": "上一步",
+			"en_US": "Previous step"
+    },
+    "import_completed": {
+      "zh_CN": "数据导入完成",
+			"en_US": "Data import completed"
+    },
+    "re_import": {
+      "zh_CN": "重新导入",
+			"en_US": "Import again"
+    }
+  }
+}

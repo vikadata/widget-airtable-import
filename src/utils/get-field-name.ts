@@ -36,7 +36,7 @@ export const getFields = (records?: IRecord[]): IFieldMap => {
 
 const getFieldType = (fieldValue) => {
  if (Array.isArray(fieldValue)) {
-    if (fieldValue[0].url) {
+    if (fieldValue[0]?.url) {
       return FieldType.Attachment;
     }
     return FieldType.MultiSelect

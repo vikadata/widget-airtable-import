@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Typography } from '@vikadata/components';
 import { FormInput } from '../components/form-input';
 import styles from './index.css';
-import { useCloudStorage, useDatasheet, useSettingsButton } from '@vikadata/widget-sdk';
+import { t, useCloudStorage, useDatasheet, useSettingsButton } from '@vikadata/widget-sdk';
 import { IFormData, IFormName, IError } from '../types';
-import { validateConfig } from '../utils';
+import { Strings, validateConfig } from '../utils';
 import { isEmpty } from 'lodash';
 
 interface ISetting {
@@ -38,7 +38,7 @@ export const Setting: React.FC<ISetting> = props => {
   return (
     <div className={styles.setting}>
       <Typography variant="h6">
-        1. 请前往 Airtable 获取下方参数信息
+        1. {t(Strings.setting_title)}
       </Typography>
       <div className={styles.formSetting}>
         <FormInput
@@ -63,7 +63,7 @@ export const Setting: React.FC<ISetting> = props => {
           error={errors.tableId}
         />
         <FormInput
-          label="View ID（可选）"
+          label={`View ID（${t(Strings.optional)}）`}
           onChange={handleKeyChange(IFormName.ViewId)}
           value={formData.viewId}
         />

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Typography, TextInput } from '@vikadata/components';
 import styles from './index.css';
+import { t } from '@vikadata/widget-sdk';
+import { Strings } from '../../utils';
 
 interface IFormInput {
   label: string;
@@ -24,7 +26,7 @@ export const FormInput: React.FC<IFormInput> = props => {
       </Typography>
       <TextInput
         error={!!error}
-        block placeholder="请输入内容"
+        block placeholder={t(Strings.placeholder)}
         onChange={handleChange}
         value={value}
       />

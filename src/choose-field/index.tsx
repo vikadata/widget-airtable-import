@@ -1,15 +1,15 @@
-import { Button, IconButton, Typography } from '@vikadata/components';
+import { Button, IconButton, showAlert, TextButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
 import React, { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { IFieldMap, IFormData, IRecords } from '../types';
 import styles from './index.css';
-import { getFields } from '../utils';
-import { omit, toPairs } from 'lodash';
+import { getFields, Strings } from '../utils';
+import { keys, omit, toPairs } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
-import { useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
+import { t, useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
 import { TitleRecycleClosedFilled } from '@vikadata/icons';
 
 interface IChooseField {
@@ -31,17 +31,33 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     setFieldMap(field);
   }, [data?.records])
 
+  const fieldCount = keys(fieldMap).length;
+
+  console.log('fieldMap', fieldMap);
+
+  useEffect(() => {
+    if (fieldCount > 200) {
+      showAlert({
+        content: t(Strings.over_200_fields),
+        type: 'error',
+        closable: true,
+        duration: 0
+      });
+    }
+  }, [fieldCount])
+
+
   if (!editable) {
     return (
       <div>
-        无编辑权限
+        {t(Strings.no_edit_permission)}
       </div>
     )
   }
 
   if (isLoading) return (
     <div className={styles.chooseFieldLoading}>
-      获取 Airtable 数据中...
+      {t(Strings.get_data)}...
     </div>
   );
 
@@ -55,7 +71,9 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     setStep(2);
   }
 
-  console.log('=====', data, fieldMap);
+  const handlePre = () => {
+    setStep(0);
+  }
 
   if (step === 2) {
     return <AirTableImport fieldMap={fieldMap} records={data?.records} />
@@ -64,15 +82,15 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   return (
     <div className={styles.chooseField}>
       <Typography variant="h6">
-        2. 请选择字段类型 
+        2. {t(Strings.choose_field_type)} 
       </Typography>
       <Typography variant="body3">
-      请为下面待导入的 Airtable 字段选择字段类型，导入完成后将在维格表中创建相应的字段并填充对应的数据 
+        {t(Strings.field_edit_title)}
       </Typography>
       <div className={styles.fieldList}>
         <div className={styles.fieldListItem}>
-          <div className={styles.fieldListItemLeft}>待导入的字段名</div>
-          <div>字段类型</div>
+          <div className={styles.fieldListItemLeft}>{t(Strings.pre_field_name)}</div>
+          <div>{t(Strings.field_type)}</div>
         </div>
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
           return (
@@ -100,7 +118,14 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
           )
         })}
       </div>
-      <Button onClick={() => handleNext()} color="primary">开始导入</Button>
+      <div className={styles.chooseFieldAction}>
+        <TextButton onClick={() => handlePre()}>
+          {t(Strings.pre)}
+        </TextButton>
+        <Button disabled={fieldCount > 200} onClick={() => handleNext()} color="primary">
+          {t(Strings.start_import)}
+        </Button>
+      </div>
     </div>
   )
 }
