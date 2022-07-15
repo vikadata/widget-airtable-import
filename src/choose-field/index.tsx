@@ -1,6 +1,6 @@
 import { Button, IconButton, showAlert, TextButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { IFieldMap, IFormData, IRecord } from '../types';
 import styles from './index.css';
@@ -9,7 +9,7 @@ import { concat, keys, omit, toPairs } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
-import { t, useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
+import { t } from '@vikadata/widget-sdk';
 import { TitleRecycleClosedFilled } from '@vikadata/icons';
 import { MAX_FIELDS_LEN } from '../constants';
 
@@ -34,14 +34,13 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     }
     return records;
   });
-  const datasheet = useDatasheet();
 
-  const [fieldMap, setFieldMap, editable] = useCloudStorage<IFieldMap>(`airtable-import-fields-${datasheet?.datasheetId}`, {});
+  const [fieldMap, setFieldMap] = useState<IFieldMap>({});
 
   useEffect(() => {
     const field = getFields(data);
     setFieldMap(field);
-  }, [data])
+  }, [data?.length])
 
   const fieldCount = keys(fieldMap).length;
 
@@ -55,15 +54,6 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
       });
     }
   }, [fieldCount])
-
-
-  if (!editable) {
-    return (
-      <div>
-        {t(Strings.no_edit_permission)}
-      </div>
-    )
-  }
 
   if (isLoading) return (
     <div className={styles.chooseFieldLoading}>

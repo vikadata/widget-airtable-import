@@ -18,6 +18,7 @@ export const getRecords = async (apiKey: string, baseId: string, tableId: string
   const queryStr = queryString.stringify(query);
   
   const url = `${AIRTABLE_URL}/${AIRTABLE_API_VERSION}/${baseId}/${tableId}?${queryStr}`;
+  // &fields%5B%5D=Status
 
   const response = await fetch(url, {
     method: 'GET',
