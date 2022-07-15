@@ -64,13 +64,93 @@
       "zh_CN": "上一步",
 			"en_US": "Previous step"
     },
+    "create_fields": {
+      "zh_CN": "正在创建列",
+			"en_US": "Fields is being created"
+    },
     "import_completed": {
       "zh_CN": "数据导入完成",
 			"en_US": "Data import completed"
     },
+    "import_stoped": {
+      "zh_CN": "数据导入中止",
+			"en_US": "Data import aborted"
+    },
+    "stop_import": {
+      "zh_CN": "中止导入",
+			"en_US": "Abort import"
+    },
     "re_import": {
       "zh_CN": "重新导入",
 			"en_US": "Import again"
+    },
+    "imported_record": {
+      "zh_CN": "已导入",
+			"en_US": "records"
+    },
+    "record_unit": {
+      "zh_CN": "行",
+			"en_US": "records"
+    },
+    "done": {
+      "zh_CN": "完成",
+			"en_US": "Finish"
+    },
+    "long_text": {
+      "zh_CN": "多行文本",
+			"en_US": "Long text"
+    },
+    "single_text": {
+      "zh_CN": "单行文本",
+			"en_US": "Single inline text"
+    },
+    "multi_select": {
+      "zh_CN": "多选",
+			"en_US": "Multi Select"
+    },
+    "select": {
+      "zh_CN": "单选",
+			"en_US": "Select"
+    },
+    "number": {
+      "zh_CN": "数字",
+			"en_US": "Number"
+    },
+    "date": {
+      "zh_CN": "日期",
+			"en_US": "Date"
+    },
+    "url": {
+      "zh_CN": "网址",
+			"en_US": "URL"
+    },
+    "email": {
+      "zh_CN": "邮箱",
+			"en_US": "Email"
+    },
+    "checkbox": {
+      "zh_CN": "勾选",
+			"en_US": "Checkbox"
+    },
+    "rate": {
+      "zh_CN": "评分",
+			"en_US": "Rating"
+    },
+    "currency": {
+      "zh_CN": "货币",
+			"en_US": "Currency"
+    },
+    "percent": {
+      "zh_CN": "百分比",
+			"en_US": "Percent"
+    },
+    "phone": {
+      "zh_CN": "电话",
+			"en_US": "Phone"
+    },
+    "attachment": {
+      "zh_CN": "附件",
+			"en_US": "Attachment"
     }
   }
 }

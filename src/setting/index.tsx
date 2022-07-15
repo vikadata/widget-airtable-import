@@ -74,7 +74,7 @@ export const Setting: React.FC<ISetting> = props => {
         onClick={() => toggleSettings()}
         color="primary"
       >
-      完成
+      {t(Strings.done)}
       </Button>
     </div>
   )

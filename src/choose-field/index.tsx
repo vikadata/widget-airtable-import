@@ -2,15 +2,16 @@ import { Button, IconButton, showAlert, TextButton, Typography } from '@vikadata
 import { getRecords } from '../apis';
 import React, { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { IFieldMap, IFormData, IRecords } from '../types';
+import { IFieldMap, IFormData, IRecord } from '../types';
 import styles from './index.css';
 import { getFields, Strings } from '../utils';
-import { keys, omit, toPairs } from 'lodash';
+import { concat, keys, omit, toPairs } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
 import { t, useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
 import { TitleRecycleClosedFilled } from '@vikadata/icons';
+import { MAX_FIELDS_LEN } from '../constants';
 
 interface IChooseField {
   formData: IFormData;
@@ -19,24 +20,33 @@ interface IChooseField {
 export const ChooseField: React.FC<IChooseField> = (props) => {
   const { formData } = props;
   const { step, setStep } = useContext(Context);
-  const { isLoading, data, error } = useQuery<IRecords, Error>('records', async () =>
-    await getRecords(formData.apiKey, formData.baseId, formData.tableId)
-  );
+  // airtable api 限制必须分页获取数据，每次最多获取 100 条
+  // offset 存在表示还有数据，继续请求
+  const { isLoading, data, error } = useQuery<IRecord[], Error>('records', async () => {
+    let fetching = true;
+    let offset = '';
+    let records: IRecord[] = [];
+    while(fetching) {
+      const rlt = await getRecords(formData.apiKey, formData.baseId, formData.tableId, offset);
+      offset = rlt.offset;
+      fetching = Boolean(offset);
+      records = concat(records, rlt.records);
+    }
+    return records;
+  });
   const datasheet = useDatasheet();
 
   const [fieldMap, setFieldMap, editable] = useCloudStorage<IFieldMap>(`airtable-import-fields-${datasheet?.datasheetId}`, {});
 
   useEffect(() => {
-    const field = getFields(data?.records);
+    const field = getFields(data);
     setFieldMap(field);
-  }, [data?.records])
+  }, [data])
 
   const fieldCount = keys(fieldMap).length;
 
-  console.log('fieldMap', fieldMap);
-
   useEffect(() => {
-    if (fieldCount > 200) {
+    if (fieldCount > MAX_FIELDS_LEN) {
       showAlert({
         content: t(Strings.over_200_fields),
         type: 'error',
@@ -76,7 +86,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   }
 
   if (step === 2) {
-    return <AirTableImport fieldMap={fieldMap} records={data?.records} />
+    return <AirTableImport fieldMap={fieldMap} records={data} />
   }
   
   return (
@@ -122,7 +132,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
         <TextButton onClick={() => handlePre()}>
           {t(Strings.pre)}
         </TextButton>
-        <Button disabled={fieldCount > 200} onClick={() => handleNext()} color="primary">
+        <Button disabled={fieldCount > MAX_FIELDS_LEN} onClick={() => handleNext()} color="primary">
           {t(Strings.start_import)}
         </Button>
       </div>

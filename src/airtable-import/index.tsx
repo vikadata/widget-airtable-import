@@ -1,9 +1,9 @@
 import { Typography } from '@vikadata/components';
-import { useDatasheet } from '@vikadata/widget-sdk';
+import { t, useDatasheet } from '@vikadata/widget-sdk';
 import React, { useState } from 'react';
 import { useEffect } from 'react'
 import { IFieldMap, IRecord } from '../types';
-import { addField, sleep } from '../utils';
+import { addField, sleep, Strings } from '../utils';
 import { AddRecord } from './add-record';
 import style from './index.css';
 
@@ -32,7 +32,7 @@ export const AirTableImport: React.FC<IAirTableImport> = props => {
   return (
     <div className={style.importAddField}>
       <Typography variant="h3">
-        正在创建列...
+        {t(Strings.create_fields)}...
       </Typography>
     </div>
   )

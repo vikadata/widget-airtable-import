@@ -34,7 +34,6 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
         symbol: '¥'
       }
     }
-    console.log(fieldKey, fieldType, property);
     const check = datasheet.checkPermissionsForAddField(fieldKey, fieldType, property);
     if (check.acceptable) {
       datasheet.addField(fieldKey, fieldType, property);

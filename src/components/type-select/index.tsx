@@ -4,7 +4,6 @@ import { getOptions } from '../../utils';
 
 export const TypeSelect: React.FC<any> = props => {
   const { value, setValue } = props;
-  console.log('===value==', value)
   const options = useMemo(() => {
     return getOptions(value);
   }, [value])
