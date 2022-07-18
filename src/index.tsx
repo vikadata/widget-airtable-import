@@ -27,33 +27,35 @@ export const Main: React.FC = () => {
   }
 
   return (
-    <Context.Provider
-      value={{
-        step, setStep
-      }}
-    >
-      {step === 0 && (
-        <div className={styles.importMain}>
-          {!isValid && (
-            <div className={styles.importMainError}>
-              {t(Strings.setting_valid)} <LinkButton component="button" onClick={() => handleNext()} >
-                {t(Strings.update_setting)}
-              </LinkButton>
+   <div className={styles.importContainer}>
+     <Context.Provider
+        value={{
+          step, setStep
+        }}
+      >
+        {step === 0 && (
+          <div className={styles.importMain}>
+            {!isValid && (
+              <div className={styles.importMainError}>
+                {t(Strings.setting_valid)} <LinkButton component="button" onClick={() => handleNext()} >
+                  {t(Strings.update_setting)}
+                </LinkButton>
+              </div>
+            )}
+            <div className={styles.title}>
+              {
+                t(Strings.start_import_title)
+              }
             </div>
-          )}
-          <div className={styles.title}>
-            {
-              t(Strings.start_import_title)
-            }
+            <Button disabled={!isValid} color="primary" onClick={() => handleNext()}>
+              {t(Strings.start_import)}
+            </Button>
           </div>
-          <Button disabled={!isValid} color="primary" onClick={() => handleNext()}>
-            {t(Strings.start_import)}
-          </Button>
-        </div>
-      )}
-      {step === 1 && <Setting errors={errors} />}
-      {step > 1 && <ChooseField formData={formData} />}
-    </Context.Provider>
+        )}
+        {step === 1 && <Setting errors={errors} />}
+        {step > 1 && <ChooseField formData={formData} />}
+      </Context.Provider>
+   </div>
   );
 };
 
