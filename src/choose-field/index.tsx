@@ -1,6 +1,6 @@
 import { Button, IconButton, showAlert, TextButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { IFieldMap, IFormData, IRecord } from '../types';
 import styles from './index.css';
@@ -17,30 +17,57 @@ interface IChooseField {
   formData: IFormData;
 }
 
+interface IError {
+  error: {
+    message: string;
+    type: string;
+  }
+}
+
 export const ChooseField: React.FC<IChooseField> = (props) => {
   const { formData } = props;
   const { step, setStep } = useContext(Context);
+  const loadRef = useRef(false);
   // airtable api 限制必须分页获取数据，每次最多获取 100 条
   // offset 存在表示还有数据，继续请求
-  const { isLoading, data, error } = useQuery<IRecord[], Error>('records', async () => {
+  const { data = [] } = useQuery<IRecord[] | IError>('records', async () => {
+    loadRef.current = true;
     let fetching = true;
     let offset = '';
     let records: IRecord[] = [];
     while(fetching) {
-      const rlt = await getRecords(formData.apiKey, formData.baseId, formData.tableId, offset);
-      offset = rlt.offset;
-      fetching = Boolean(offset);
-      records = concat(records, rlt.records);
+      const rlt = await getRecords(formData.apiKey, formData.baseId, formData.tableId, {
+        offset,
+        view: formData.viewId || ''
+      });
+      if (rlt.error) {
+        loadRef.current = false;
+        return rlt;
+      } else {
+        offset = rlt.offset;
+        fetching = Boolean(offset);
+        records = concat(records, rlt.records);
+      }
     }
+    loadRef.current = false;
     return records;
   });
 
+
+  const isError = !Array.isArray(data);
+
   const [fieldMap, setFieldMap] = useState<IFieldMap>({});
 
+  const isDataChange = !isError && data?.length;
+
   useEffect(() => {
-    const field = getFields(data);
-    setFieldMap(field);
-  }, [data?.length])
+    if (!isError) {
+      const field = getFields(data);
+      setFieldMap(field);
+    } else {
+      setFieldMap({});
+    }
+  }, [isDataChange])
 
   const fieldCount = keys(fieldMap).length;
 
@@ -55,27 +82,38 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     }
   }, [fieldCount])
 
-  if (isLoading) return (
+  if (loadRef.current) return (
     <div className={styles.chooseFieldLoading}>
       {t(Strings.get_data)}...
     </div>
   );
 
-  if (error) return (
+  if (isError) return (
     <div className={styles.chooseFieldError}>
-      An error has occurred: {error}
+      <h4>
+        {data?.error.type} 
+      </h4>
+      <p>
+      {data?.error.message}
+      </p>
+      <Button onClick={() => {
+        setStep(0);
+
+      }} color="primary">
+        {t(Strings.re_import)}
+      </Button>
     </div>
   )
 
   const handleNext = () => {
-    setStep(2);
+    setStep(3);
   }
 
   const handlePre = () => {
-    setStep(0);
+    setStep(1);
   }
 
-  if (step === 2) {
+  if (step === 3) {
     return <AirTableImport fieldMap={fieldMap} records={data} />
   }
   

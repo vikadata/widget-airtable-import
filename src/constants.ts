@@ -12,6 +12,7 @@ export const FIELD_GROUPS = {
   string: [
     FieldType.Text, FieldType.SingleText, FieldType.Email, FieldType.Phone, FieldType.URL, FieldType.Phone, FieldType.DateTime, FieldType.SingleSelect
   ],
+  attach: [FieldType.Attachment]
 }
 
 export const TYPE_OPTIONS = [

@@ -17,3 +17,7 @@ export interface IFormData {
 export type IError = Object.Optional<IFormData>;
 
 
+export interface IQuery {
+  offset?: string;
+  view?: string;
+}

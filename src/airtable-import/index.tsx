@@ -14,7 +14,7 @@ interface IAirTableImport {
 
 export const AirTableImport: React.FC<IAirTableImport> = props => {
   const { fieldMap, records } = props;
-  const [importing, setImporting] = useState(true);
+  const [importing, setImporting] = useState(false);
   const datasheet = useDatasheet();
   useEffect(() => {
     console.log('创建列...');

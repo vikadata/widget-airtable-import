@@ -13,7 +13,6 @@ import { isEmpty } from 'lodash';
 const queryClient = new QueryClient();
 
 export const Main: React.FC = () => {
-  const [isSettingOpened, toggleSettings] = useSettingsButton();
 
   const datasheet = useDatasheet();
   const [formData] = useCloudStorage<IFormData>(`airtable-import-${datasheet?.datasheetId}`, {
@@ -29,10 +28,6 @@ export const Main: React.FC = () => {
     setStep(step + 1);
   }
 
-  if (isSettingOpened) {
-    return <Setting errors={errors} />
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       <Context.Provider
@@ -44,7 +39,7 @@ export const Main: React.FC = () => {
           <div className={styles.importMain}>
             {!isValid && (
               <div className={styles.importMainError}>
-                {t(Strings.setting_valid)} <LinkButton component="button" onClick={() => toggleSettings()} >
+                {t(Strings.setting_valid)} <LinkButton component="button" onClick={() => handleNext()} >
                   {t(Strings.update_setting)}
                 </LinkButton>
               </div>
@@ -59,7 +54,8 @@ export const Main: React.FC = () => {
             </Button>
           </div>
         )}
-        {step > 0 && <ChooseField formData={formData} />}
+        {step === 1 && <Setting errors={errors} />}
+        {step > 1 && <ChooseField formData={formData} />}
       </Context.Provider>
     </QueryClientProvider>
   );

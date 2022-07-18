@@ -1,21 +1,16 @@
 import { AIRTABLE_API_VERSION, AIRTABLE_URL } from '../constants';
 import queryString from 'query-string';
+import { IQuery } from '../types';
 
-export const getRecords = async (apiKey: string, baseId: string, tableId: string, offset?: string) => {
+export const getRecords = async (apiKey: string, baseId: string, tableId: string, query?: IQuery) => {
   if (!apiKey || !baseId || !tableId) return null;
 
-  const query: {
-    [key: string]: string
-  } = {};
-
-  if (offset) {
-    query.offset = offset;
-  }
+  const _query = query || {};
 
   // 调试单列
   // query['fields[]'] = 'Attachments';
 
-  const queryStr = queryString.stringify(query);
+  const queryStr = queryString.stringify(_query);
   
   const url = `${AIRTABLE_URL}/${AIRTABLE_API_VERSION}/${baseId}/${tableId}?${queryStr}`;
   // &fields%5B%5D=Status

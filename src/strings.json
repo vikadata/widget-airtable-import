@@ -64,6 +64,10 @@
       "zh_CN": "上一步",
 			"en_US": "Previous step"
     },
+    "next": {
+      "zh_CN": "下一步",
+			"en_US": "Next step"
+    },
     "create_fields": {
       "zh_CN": "正在创建列",
 			"en_US": "Fields is being created"

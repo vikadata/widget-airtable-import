@@ -9,6 +9,7 @@ export const TypeSelect: React.FC<any> = props => {
   }, [value])
   return (
     <Select
+      disabled={options.length === 1}
       options={options}
       value={value}
       onSelected={(option) => {

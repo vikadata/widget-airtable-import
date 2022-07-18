@@ -13,6 +13,7 @@
 }
 
 .chooseFieldError {
+  padding: 24px 16px;
   color: var(--textDangerDefault);
 }
 
