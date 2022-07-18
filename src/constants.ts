@@ -34,3 +34,5 @@ export const TYPE_OPTIONS = [
 
 export const MAX_FIELDS_LEN = 200;
 
+export const MAX_FILE_SIZE = 10 * 1024 * 1024;
+

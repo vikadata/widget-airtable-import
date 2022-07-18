@@ -27,7 +27,7 @@ export const AirTableImport: React.FC<IAirTableImport> = props => {
     sync();
   }, [])
   if (!importing) {
-    return <AddRecord records={records} />
+    return <AddRecord records={records} fieldMap={fieldMap} />
   }
   return (
     <div className={style.importAddField}>

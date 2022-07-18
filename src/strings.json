@@ -96,6 +96,18 @@
       "zh_CN": "行",
 			"en_US": "records"
     },
+    "ok": {
+      "zh_CN": "确定",
+			"en_US": "Confirm"
+    },
+    "waring_import_title": {
+      "zh_CN": "附件导入说明",
+			"en_US": "Attachment Import Instructions"
+    },
+    "waring_file_upload": {
+      "zh_CN": "检测到正在导入附件列，当前小程序仅支持导入不超过 10MB 的文件，超出的文件将被跳过，是否继续？",
+			"en_US": "It is detected that the attachment column is being imported. Currently, the applet only supports importing files not exceeding 10MB. Excess files will be skipped. Do you want to continue?"
+    },
     "done": {
       "zh_CN": "完成",
 			"en_US": "Finish"

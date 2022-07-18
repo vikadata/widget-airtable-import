@@ -1,15 +1,14 @@
-import { Button, IconButton, showAlert, TextButton, Typography } from '@vikadata/components';
+import { Button, IconButton, Modal, showAlert, TextButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
 import { IFieldMap, IFormData, IRecord } from '../types';
 import styles from './index.css';
 import { getFields, Strings } from '../utils';
-import { concat, keys, omit, toPairs } from 'lodash';
+import { concat, keys, omit, toPairs, values } from 'lodash';
 import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
-import { t } from '@vikadata/widget-sdk';
+import { t, FieldType } from '@vikadata/widget-sdk';
 import { TitleRecycleClosedFilled } from '@vikadata/icons';
 import { MAX_FIELDS_LEN } from '../constants';
 
@@ -30,29 +29,33 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   const loadRef = useRef(false);
   // airtable api 限制必须分页获取数据，每次最多获取 100 条
   // offset 存在表示还有数据，继续请求
-  const { data = [] } = useQuery<IRecord[] | IError>('records', async () => {
-    loadRef.current = true;
-    let fetching = true;
-    let offset = '';
-    let records: IRecord[] = [];
-    while(fetching) {
-      const rlt = await getRecords(formData.apiKey, formData.baseId, formData.tableId, {
-        offset,
-        view: formData.viewId || ''
-      });
-      if (rlt.error) {
-        loadRef.current = false;
-        return rlt;
-      } else {
-        offset = rlt.offset;
-        fetching = Boolean(offset);
-        records = concat(records, rlt.records);
+  const [data, setData]= useState<IRecord[] | IError>([]);
+  useEffect(() => {
+    const load = async () => {
+      loadRef.current = true;
+      let fetching = true;
+      let offset = '';
+      let records: IRecord[] = [];
+      while(fetching) {
+        const rlt = await getRecords(formData.apiKey, formData.baseId, formData.tableId, {
+          offset,
+          view: formData.viewId || ''
+        });
+        if (rlt.error) {
+          loadRef.current = false;
+          setData(rlt);
+          return;
+        } else {
+          offset = rlt.offset;
+          fetching = Boolean(offset);
+          records = concat(records, rlt.records);
+        }
       }
+      loadRef.current = false;
+      setData(records);
     }
-    loadRef.current = false;
-    return records;
-  });
-
+    load();
+  }, [])
 
   const isError = !Array.isArray(data);
 
@@ -160,7 +163,25 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
         <TextButton onClick={() => handlePre()}>
           {t(Strings.pre)}
         </TextButton>
-        <Button disabled={fieldCount > MAX_FIELDS_LEN} onClick={() => handleNext()} color="primary">
+        <Button disabled={fieldCount > MAX_FIELDS_LEN} onClick={() => {
+          const hasAttachment = values(fieldMap).filter(fm => fm[0] === FieldType.Attachment).length > 0
+          if (hasAttachment) {
+            Modal.warning({
+              title: t(Strings.waring_import_title),
+              content: (
+                <div className={styles.chooseFieldWarn}>
+                  {t(Strings.waring_file_upload)}
+                </div>
+              ),
+              okText: t(Strings.ok),
+              onOk: () => {
+                handleNext();
+              }
+            });
+          } else {
+            handleNext();
+          }
+        }} color="primary">
           {t(Strings.start_import)}
         </Button>
       </div>

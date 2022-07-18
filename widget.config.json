@@ -3,15 +3,15 @@
   "spaceId": "spczxAHlFydX0",
   "entry": "./src/index.tsx",
   "name": {
-    "zh-CN": "airtableImport",
-    "en-US": "airtableImport"
+    "zh-CN": "Airtable 数据导入",
+    "en-US": "Airtable Import"
   },
   "icon": "./package_icon.png",
   "cover": "./cover.png",
   "authorIcon": "./author_icon.png",
   "description": {
-    "zh-CN": "airtableImport 的描述",
-    "en-US": "airtableImport description"
+    "zh-CN": "Airtable 数据导入",
+    "en-US": "Airtable Import"
   },
   "sandbox": true
 }

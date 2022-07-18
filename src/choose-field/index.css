@@ -5,6 +5,10 @@
   height: 100%;
 }
 
+.chooseFieldWarn {
+  color: #2e2e2e;
+}
+
 .chooseFieldLoading {
   display:flex;
   align-items: center;

@@ -6,16 +6,18 @@ import {
 import { find } from 'lodash';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { getFileBlob, Strings } from '../utils';
-import { IRecord } from '../types';
+import { IFieldMap, IRecord } from '../types';
 import style from './index.css';
 import { Context } from '../context';
 import successImg from '../../space_img_success.png';
+import { MAX_FILE_SIZE } from '../constants';
 
 interface IAddRecord {
   records?: IRecord[];
+  fieldMap: IFieldMap;
 }
 export const AddRecord: React.FC<IAddRecord> = props => {
-  const { records } = props;
+  const { records, fieldMap } = props;
   const [importing, setImporting] = useState(false);
   const { setStep } = useContext(Context);
   const datasheet = useDatasheet();
@@ -37,8 +39,8 @@ export const AddRecord: React.FC<IAddRecord> = props => {
           let newRecord = {};
           for (const fieldName in record.fields) {
             const field = find(fields, { name: fieldName });
-            if (!field) {
-              console.log(`${fieldName} 没有对应列`);
+            if (!field || !fieldMap[fieldName]) {
+              // console.log(`${fieldName} 没有对应列`);
               continue;
             } else {
               let recordValue = record.fields[fieldName];
@@ -49,14 +51,17 @@ export const AddRecord: React.FC<IAddRecord> = props => {
                 for(let k = 0; k < recordValue.length; k++) {
                   const rv = recordValue[k];
                   const fileBlob = await getFileBlob(rv.url);
-                  const curFile = new File([fileBlob], rv.filename, {
-                    type: rv.type
-                  });
-                  const uploadRlt = await upload({
-                    file: curFile,
-                    datasheetId: datasheet.datasheetId,
-                  });
-                  files.push(uploadRlt);
+                  // 上传小于 10MB 的文件
+                  if (fileBlob.size < MAX_FILE_SIZE) {
+                    const curFile = new File([fileBlob], rv.filename, {
+                      type: rv.type
+                    });
+                    const uploadRlt = await upload({
+                      file: curFile,
+                      datasheetId: datasheet.datasheetId,
+                    });
+                    files.push(uploadRlt);
+                  }
                 }
                 recordValue = files;
               }
