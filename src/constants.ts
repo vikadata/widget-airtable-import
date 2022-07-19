@@ -7,10 +7,12 @@ export const AIRTABLE_API_VERSION = 'v0';
 
 export const FIELD_GROUPS = {
   boolean: [FieldType.Checkbox],
-  number: [FieldType.Number, FieldType.Rating, FieldType.Currency, FieldType.Percent],
+  number: [
+    FieldType.Number, FieldType.Rating, FieldType.Currency, FieldType.Percent,
+  ],
   array: [FieldType.MultiSelect, FieldType.SingleSelect],
   string: [
-    FieldType.Text, FieldType.SingleText, FieldType.Email, FieldType.Phone, FieldType.URL, FieldType.Phone, FieldType.DateTime, FieldType.SingleSelect
+    FieldType.Text, FieldType.SingleText, FieldType.Email, FieldType.Phone, FieldType.URL, FieldType.Phone, FieldType.DateTime, FieldType.SingleSelect,
   ],
   attach: [FieldType.Attachment]
 }

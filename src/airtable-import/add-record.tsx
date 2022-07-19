@@ -3,7 +3,7 @@ import {
   FieldType, useActiveViewId, useDatasheet, useFields, upload, IAttachmentValue, t,
   getLanguage, LangType,
 } from '@vikadata/widget-sdk';
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { getFileBlob, Strings } from '../utils';
 import { IFieldMap, IRecord } from '../types';
@@ -36,7 +36,7 @@ export const AddRecord: React.FC<IAddRecord> = props => {
         let i = 0;
         while(i < records.length && !stopRef.current) {
           const record = records[i];
-          let newRecord = {};
+          let newRecord: object = {};
           for (const fieldName in record.fields) {
             const field = find(fields, { name: fieldName });
             if (!field || !fieldMap[fieldName]) {
@@ -69,8 +69,18 @@ export const AddRecord: React.FC<IAddRecord> = props => {
             }
           }
           try {
-            await datasheet.addRecord(newRecord);
-            successCountRef.current++;
+            const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);
+            if (checkRlt.acceptable) {
+              // 整行为空忽略
+              if (!isEmpty(newRecord)) {
+                console.log('newRecord', newRecord);
+                await datasheet.addRecord(newRecord);
+                successCountRef.current++;
+              }
+            } else {
+              failCountRef.current++;
+              console.error(checkRlt.message);
+            }     
           } catch (e) {
             failCountRef.current++;
             console.error(e);

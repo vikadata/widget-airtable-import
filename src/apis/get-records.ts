@@ -8,12 +8,11 @@ export const getRecords = async (apiKey: string, baseId: string, tableId: string
   const _query = query || {};
 
   // 调试单列
-  // query['fields[]'] = 'Attachments';
+  // _query['fields[]'] = 'Phone';
 
   const queryStr = queryString.stringify(_query);
   
   const url = `${AIRTABLE_URL}/${AIRTABLE_API_VERSION}/${baseId}/${tableId}?${queryStr}`;
-  // &fields%5B%5D=Status
 
   const response = await fetch(url, {
     method: 'GET',

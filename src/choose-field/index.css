@@ -37,17 +37,21 @@
   align-items: center;
 }
 
-.fieldListItemDelete {
-  margin-left: 16px;
+.fieldListItemLeft {
+  width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: none !important;
 }
 
+.fieldListItemDelete {
+  margin-left: 16px;
+  flex: none !important;
+}
 
 .fieldListItem > div {
   flex: 1;
-}
-
-.fieldListItem > div:last-child {
-  flex: none;
 }
 
 .funcAlert {

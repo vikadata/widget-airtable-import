@@ -9,7 +9,7 @@ import { TypeSelect } from '../components/type-select';
 import { Context } from '../context';
 import { AirTableImport } from '../airtable-import';
 import { t, FieldType } from '@vikadata/widget-sdk';
-import { TitleRecycleClosedFilled } from '@vikadata/icons';
+import { DeleteOutlined } from '@vikadata/icons';
 import { MAX_FIELDS_LEN } from '../constants';
 
 interface IChooseField {
@@ -136,7 +136,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
           return (
             <div key={index} className={styles.fieldListItem}>
-              <div>{fieldKey}</div>
+              <div className={styles.fieldListItemLeft}>{fieldKey}</div>
               <TypeSelect
                 value={fieldType[0]}
                 setValue={(val) => {
@@ -148,7 +148,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
               />
               <IconButton
                 className={styles.fieldListItemDelete}
-                icon={TitleRecycleClosedFilled}
+                icon={DeleteOutlined}
                 shape="square"
                 onClick={() => {
                   const newFieldMap = omit(fieldMap, fieldKey);
