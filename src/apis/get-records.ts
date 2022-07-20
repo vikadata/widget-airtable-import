@@ -8,7 +8,7 @@ export const getRecords = async (apiKey: string, baseId: string, tableId: string
   const _query = query || {};
 
   // 调试单列
-  _query['fields[]'] = 'member';
+  // _query['fields[]'] = 'member';
 
   const queryStr = queryString.stringify(_query);
   

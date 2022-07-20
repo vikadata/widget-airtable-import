@@ -105,40 +105,35 @@ export const AddRecord: React.FC<IAddRecord> = props => {
   return (
     <div className={style.importAddRecord}>
       {!importing && !stopRef.current && (
-        <img src={successImg} alt="succee image"/>
+        <img className={style.importAddRecordImg} src={successImg} alt="succee image"/>
       )}
       {!importing && !stopRef.current && (
         <Typography variant="h3" className={style.importCompleted}>
           {t(Strings.import_completed)}
         </Typography>
       )}
-      {!importing && stopRef.current && (
-        <Typography variant="h3" className={style.importStoped}>
-          {t(Strings.import_stoped)}
-        </Typography>
-      )}
-      <Typography variant="body3"  className={style.importProcess}>
+      <Typography variant="h6"  className={style.importProcess}>
         {isZh ? (
           <div>
-            共 {records?.length} 行数据，已导入
-            <span className={style.importAddRecordSuccess}>{successCountRef.current}</span>行、失败
-            <span className={style.importAddRecordFail}>{failCountRef.current}</span>行
+            数据导入中止，共 {records?.length} 行数据，已导入 
+            <span className={style.importAddRecordSuccess}>{successCountRef.current}</span> 行、失败 
+            <span className={style.importAddRecordFail}>{failCountRef.current}</span> 行
           </div>
         ): (
           <div>
-            A total of {records?.length} records, 
+            Data import aborted，a total of {records?.length} records, 
             <span className={style.importAddRecordSuccess}>{successCountRef.current}</span> records has been imported, 
             <span className={style.importAddRecordFail}>{failCountRef.current}</span> records failed
           </div>
         )}
       </Typography>
       {importing && !stopRef.current && (
-        <Button variant="fill" color="danger" onClick={() => stopImport()} >
+        <Button variant="fill" color="danger" onClick={() => stopImport()} className={style.importAddRecordBtn}>
           {t(Strings.stop_import)}
         </Button>
       )}
       {!importing && (
-        <Button onClick={() => setStep(0)} color="primary">
+        <Button onClick={() => setStep(0)} color="primary" className={style.importAddRecordBtn}>
           {t(Strings.re_import)}
         </Button>
       )}

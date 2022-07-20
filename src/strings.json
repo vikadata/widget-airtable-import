@@ -100,6 +100,10 @@
       "zh_CN": "确定",
 			"en_US": "Confirm"
     },
+    "cancel": {
+      "zh_CN": "取消",
+			"en_US": "Cancel"
+    },
     "waring_import_title": {
       "zh_CN": "附件导入说明",
 			"en_US": "Attachment Import Instructions"

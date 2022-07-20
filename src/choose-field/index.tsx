@@ -183,6 +183,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
                 </div>
               ),
               okText: t(Strings.ok),
+              closable: true,
               onOk: () => {
                 handleNext();
               }

@@ -1,6 +1,13 @@
 .importAddRecord {
-  margin-top: 40px;
   text-align: center;
+}
+
+.importAddRecordImg {
+  max-width: 160px;
+}
+
+.importAddRecordBtn {
+  width: 160px;
 }
 
 .importAddField {
