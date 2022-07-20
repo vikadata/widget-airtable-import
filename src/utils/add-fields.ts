@@ -6,8 +6,9 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
   if (!datasheet) return null;
   await Promise.all(toPairs(fieldMap).map(([fieldKey, fieldTypes], index) => {
     let property: IField['property'] = null;
-    const [fieldType, defaultOptions] = fieldTypes;
+    let [fieldType, defaultOptions] = fieldTypes;
     if (fieldType === FieldType.SingleSelect || fieldType === FieldType.MultiSelect) {
+      defaultOptions = typeof defaultOptions === 'string' ? [defaultOptions] : defaultOptions;
       property = {
         options: (defaultOptions as string[]).map(option => ({ name: option }))
       }
@@ -21,7 +22,7 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
       }
     } else if (fieldType === FieldType.Rating) {
       property = {
-        max: defaultOptions as number,
+        max: Math.min(defaultOptions as number, 10), // 不能超过 10 个
         icon: 'star',
       }
     } else if (fieldType === FieldType.Percent) {
@@ -36,6 +37,7 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
     }
     const check = datasheet.checkPermissionsForAddField(fieldKey, fieldType, property);
     if (check.acceptable) {
+      console.log('property', property);
       datasheet.addField(fieldKey, fieldType, property);
     } else {
       console.error(`列 ${fieldKey} 添加失败：${check.message}`);

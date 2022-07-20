@@ -3,7 +3,7 @@ import {
   FieldType, useActiveViewId, useDatasheet, useFields, upload, IAttachmentValue, t,
   getLanguage, LangType,
 } from '@vikadata/widget-sdk';
-import { find, isEmpty } from 'lodash';
+import { find, has, isEmpty } from 'lodash';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { getFileBlob, Strings } from '../utils';
 import { IFieldMap, IRecord } from '../types';
@@ -64,23 +64,26 @@ export const AddRecord: React.FC<IAddRecord> = props => {
                   }
                 }
                 recordValue = files;
+              } else if (has(recordValue, 'name')) { // 兼容成员
+                recordValue = recordValue.name;
               }
               newRecord[field.id] = recordValue;
             }
           }
           try {
-            const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);
-            if (checkRlt.acceptable) {
-              // 整行为空忽略
-              if (!isEmpty(newRecord)) {
-                console.log('newRecord', newRecord);
+            // console.log('newRecord', newRecord);
+            // 整行为空忽略
+            if (!isEmpty(newRecord)) {
+              const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);
+              console.log('checkRlt', checkRlt, newRecord);
+              if (checkRlt.acceptable) {
                 await datasheet.addRecord(newRecord);
-                successCountRef.current++;
-              }
-            } else {
-              failCountRef.current++;
-              console.error(checkRlt.message);
-            }     
+                  successCountRef.current++;
+              } else {
+                failCountRef.current++;
+                console.error(checkRlt.message);
+              }  
+            }
           } catch (e) {
             failCountRef.current++;
             console.error(e);

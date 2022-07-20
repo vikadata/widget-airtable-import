@@ -25,7 +25,11 @@ export const getFields = (records?: IRecord[]): IFieldMap => {
       ) {
         const max = Math.max(pre[fieldKey][1], fieldValue);
         set(pre[fieldKey], 1, Math.max(max, 5));
-      }  else { // fieldValue 为字符串
+      } else if ( // 成员
+        typeof fieldValue === 'object'
+      ) {
+        set(pre[fieldKey], 1, fieldValue.name);
+      } else { // fieldValue 为字符串
         const defaultOptions = union(pre[fieldKey][1], [fieldValue]);
         set(pre[fieldKey], 1, defaultOptions);
       }

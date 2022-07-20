@@ -30,6 +30,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   // airtable api 限制必须分页获取数据，每次最多获取 100 条
   // offset 存在表示还有数据，继续请求
   const [data, setData]= useState<IRecord[] | IError>([]);
+
   useEffect(() => {
     const load = async () => {
       loadRef.current = true;
@@ -116,22 +117,30 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     setStep(1);
   }
 
+  // console.log('fieldMap', fieldMap);
+
   if (step === 3) {
     return <AirTableImport fieldMap={fieldMap} records={data} />
   }
   
   return (
     <div className={styles.chooseField}>
-      <Typography variant="h6">
+      <Typography variant="h6" className={styles.chooseFieldTitle}>
         2. {t(Strings.choose_field_type)} 
       </Typography>
-      <Typography variant="body3">
+      <Typography variant="body2" className={styles.chooseFieldDesc}>
         {t(Strings.field_edit_title)}
       </Typography>
       <div className={styles.fieldList}>
         <div className={styles.fieldListItem}>
-          <div className={styles.fieldListItemLeft}>{t(Strings.pre_field_name)}</div>
-          <div>{t(Strings.field_type)}</div>
+          <div className={styles.fieldListItemLeft}>
+            <Typography variant="h7">
+              {t(Strings.pre_field_name)}
+            </Typography>
+          </div>
+          <Typography variant="h7">
+            {t(Strings.field_type)}
+          </Typography>
         </div>
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
           return (

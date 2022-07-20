@@ -5,6 +5,14 @@
   height: 100%;
 }
 
+.chooseFieldTitle {
+  margin-bottom: 4px;
+}
+
+.chooseFieldDesc {
+  color: var(--textCommonSecondary);
+}
+
 .chooseFieldWarn {
   color: #2e2e2e;
 }
@@ -43,6 +51,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: none !important;
+  color: var(--textCommonSecondary);
 }
 
 .fieldListItemDelete {
