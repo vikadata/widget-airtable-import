@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Typography } from '@vikadata/components';
+import { Button, LinkButton, Typography, colorVars } from '@vikadata/components';
 import { FormInput } from '../components/form-input';
 import styles from './index.css';
 import { t, useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
@@ -38,8 +38,15 @@ export const Setting: React.FC<ISetting> = props => {
   const isValid = isEmpty(validateConfig(formData));
   return (
     <div className={styles.setting}>
-      <Typography variant="h6">
+      <Typography variant="h6" className={styles.settingTitle}>
         1. {t(Strings.setting_title)}
+        <LinkButton
+          href="https://vika.cn/help/intro-widget-import-from-airtable"
+          target="_blank"
+          color={colorVars.textCommonSecondary}
+        >
+          {t(Strings.tutorial)}
+        </LinkButton>
       </Typography>
       <div className={styles.formSetting}>
         <FormInput

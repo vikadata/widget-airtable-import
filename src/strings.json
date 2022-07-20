@@ -92,6 +92,10 @@
       "zh_CN": "已导入",
 			"en_US": "records"
     },
+    "tutorial": {
+      "zh_CN": "查看教程",
+			"en_US": "View tutorial"
+    },
     "record_unit": {
       "zh_CN": "行",
 			"en_US": "records"

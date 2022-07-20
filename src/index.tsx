@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { initializeWidget, t, useCloudStorage, useDatasheet } from '@vikadata/widget-sdk';
+import React, { useEffect, useState } from 'react';
+import { initializeWidget, t, useCloudStorage, useDatasheet, useViewport } from '@vikadata/widget-sdk';
 import { Button, LinkButton } from '@vikadata/components';
 import { Setting } from './setting';
 import styles from './index.css';
@@ -19,10 +19,21 @@ export const Main: React.FC = () => {
     tableId: ''
   });
 
+  const { isFullscreen, toggleFullscreen } = useViewport();
+
   const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    if (!isFullscreen) {
+      setStep(0);
+    }
+  }, [isFullscreen])
   const errors = validateConfig(formData);
   const isValid = isEmpty(errors);
   const handleNext = () => {
+    if (!isFullscreen) {
+      toggleFullscreen(true);
+    }
     setStep(step + 1);
   }
 
