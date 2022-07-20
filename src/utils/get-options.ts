@@ -1,10 +1,21 @@
 import { FieldType } from '@vikadata/widget-sdk';
-import { isEmpty, values } from 'lodash';
+import { values } from 'lodash';
 import { FIELD_GROUPS, TYPE_OPTIONS } from '../constants';
 
-export const getOptions = (value: FieldType) => {
-  const groupValue = values(FIELD_GROUPS).filter(group => group.some(g => g === value));
+export const getOptions = (value: FieldType, fieldValue: any) => {
+  // 非附件对象数据
+  const isObjectArr = !Array.isArray(fieldValue) && typeof fieldValue === 'object' && !(fieldValue as any).filename;
+  const isStr = typeof fieldValue === 'string';
+  if (isObjectArr) {
+    return TYPE_OPTIONS.filter(option => option.value === FieldType.Text);
+  }
+  let groupValue = values(FIELD_GROUPS).filter(group => group.some(g => g === value))[0];
+  if (isStr) {
+    groupValue = FIELD_GROUPS.string;
+  }
 
-  return isEmpty(groupValue) ? TYPE_OPTIONS.filter(option => option.value === FieldType.Text) : TYPE_OPTIONS.filter(option => groupValue[0].includes(option.value));
+  return TYPE_OPTIONS.filter(option =>
+    groupValue.includes(option.value)
+  );
 
 }

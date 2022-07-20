@@ -54,7 +54,7 @@ export const FIELD_GROUPS = {
   ],
   array: [FieldType.MultiSelect, FieldType.Text, FieldType.SingleText],
   string: [
-    FieldType.Text, FieldType.SingleText, FieldType.Email, FieldType.Phone, FieldType.URL, FieldType.Phone, FieldType.SingleSelect,
+    FieldType.Text, FieldType.SingleText, FieldType.Email, FieldType.Phone, FieldType.URL, FieldType.Phone,
   ],
   attach: [FieldType.Attachment]
 }

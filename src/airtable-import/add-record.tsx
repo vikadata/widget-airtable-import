@@ -70,7 +70,7 @@ export const AddRecord: React.FC<IAddRecord> = props => {
                 typeof recordValue[0] === 'string'
               ) {
                 recordValue = recordValue.join(',');
-              } else if (typeof recordValue === 'object') {
+              } else if (field.type !== FieldType.MultiSelect && typeof recordValue === 'object') {
                 recordValue = JSON.stringify(recordValue);
               }
               newRecord[field.id] = recordValue;
@@ -96,6 +96,7 @@ export const AddRecord: React.FC<IAddRecord> = props => {
           i++;
         }
         setImporting(false);
+        stopRef.current = true;
       }
     }
     sync();

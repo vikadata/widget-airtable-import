@@ -1,12 +1,11 @@
 import { Select } from '@vikadata/components';
-import { FieldType } from '@vikadata/widget-sdk';
 import React, { useMemo } from 'react';
 import { getOptions } from '../../utils';
 
 export const TypeSelect: React.FC<any> = props => {
-  const { value, setValue, isObjectArr } = props;
+  const { value, setValue, fieldValue } = props;
   const options = useMemo(() => {
-    return getOptions(isObjectArr ? FieldType.NotSupport : value);
+    return getOptions(value, fieldValue);
   }, [value])
   return (
     <Select

@@ -37,7 +37,6 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
     }
     const check = datasheet.checkPermissionsForAddField(fieldKey, fieldType, property);
     if (check.acceptable) {
-      console.log('property', property);
       datasheet.addField(fieldKey, fieldType, property);
     } else {
       console.error(`列 ${fieldKey} 添加失败：${check.message}`);
