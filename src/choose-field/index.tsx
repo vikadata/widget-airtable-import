@@ -143,11 +143,14 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
           </Typography>
         </div>
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
+          // 非附件对象数据
+          const isObjectArr = Array.isArray(fieldType[1]) && typeof fieldType[1][0] === 'object' && !(fieldType[1][0] as any).filename
           return (
             <div key={index} className={styles.fieldListItem}>
               <div className={styles.fieldListItemLeft}>{fieldKey}</div>
               <TypeSelect
                 value={fieldType[0]}
+                isObjectArr={isObjectArr}
                 setValue={(val) => {
                   setFieldMap({
                     ...fieldMap,

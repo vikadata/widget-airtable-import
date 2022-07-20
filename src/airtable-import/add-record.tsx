@@ -64,8 +64,14 @@ export const AddRecord: React.FC<IAddRecord> = props => {
                   }
                 }
                 recordValue = files;
-              } else if (has(recordValue, 'name')) { // 兼容成员
-                recordValue = recordValue.name;
+              } else if (
+                field.type !== FieldType.MultiSelect &&
+                Array.isArray(recordValue) &&
+                typeof recordValue[0] === 'string'
+              ) {
+                recordValue = recordValue.join(',');
+              } else if (typeof recordValue === 'object') {
+                recordValue = JSON.stringify(recordValue);
               }
               newRecord[field.id] = recordValue;
             }
@@ -75,7 +81,6 @@ export const AddRecord: React.FC<IAddRecord> = props => {
             // 整行为空忽略
             if (!isEmpty(newRecord)) {
               const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);
-              console.log('checkRlt', checkRlt, newRecord);
               if (checkRlt.acceptable) {
                 await datasheet.addRecord(newRecord);
                   successCountRef.current++;
