@@ -77,7 +77,7 @@ export const AddRecord: React.FC<IAddRecord> = props => {
             }
           }
           try {
-            console.log('newRecord', newRecord);
+            // console.log('newRecord', newRecord);
             // 整行为空忽略
             if (!isEmpty(newRecord)) {
               const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);

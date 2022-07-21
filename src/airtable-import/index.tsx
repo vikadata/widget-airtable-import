@@ -14,14 +14,14 @@ interface IAirTableImport {
 
 export const AirTableImport: React.FC<IAirTableImport> = props => {
   const { fieldMap, records } = props;
-  const [importing, setImporting] = useState(false);
+  const [importing, setImporting] = useState(true);
   const datasheet = useDatasheet();
   useEffect(() => {
     console.log('创建列...');
     setImporting(true);
     const sync = async () => {
       await addField(fieldMap, datasheet);
-      await sleep(500);
+      await sleep(3000);
       setImporting(false);
     }
     sync();
