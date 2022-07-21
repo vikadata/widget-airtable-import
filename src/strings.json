@@ -96,6 +96,14 @@
       "zh_CN": "修改配置",
 			"en_US": "Reconfigure"
     },
+    "help": {
+      "zh_CN": "查看帮助",
+			"en_US": "View help"
+    },
+    "fetch_fail": {
+      "zh_CN": "获取 airtable 数据失败",
+			"en_US": "Failed to get airtable data"
+    },
     "dot": {
       "zh_CN": "，",
 			"en_US": ","

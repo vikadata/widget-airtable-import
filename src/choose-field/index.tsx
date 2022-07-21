@@ -1,4 +1,4 @@
-import { Button, IconButton, Modal, showAlert, TextButton, Typography } from '@vikadata/components';
+import { Button, IconButton, LinkButton, Modal, showAlert, TextButton, Typography } from '@vikadata/components';
 import { getRecords } from '../apis';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { IFieldMap, IFormData, IRecord } from '../types';
@@ -94,13 +94,19 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
 
   if (isError) return (
     <div className={styles.chooseFieldError}>
-      <p>获取 airtable 数据失败：错误信息：</p>
-      <h4>
-        {data?.error.type} 
-      </h4>
-      <p>
+      <Typography variant="body3"  className={styles.chooseFieldMes}>
+        <b>{data?.error.type} </b>
       {data?.error.message}
-      </p>
+      </Typography>
+      <Typography variant="h6" className={styles.chooseFieldText}>
+        {t(Strings.fetch_fail)}
+        <LinkButton
+          href="https://vika.cn/help/intro-widget-import-from-airtable"
+          target="_blank"
+        >
+          {t(Strings.help)}
+        </LinkButton>
+      </Typography>
       <Button onClick={() => {
         setStep(1);
 
@@ -145,7 +151,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
         </div>
         {toPairs(fieldMap).map(([fieldKey, fieldType], index) => {
           return (
-            <div key={index} className={styles.fieldListItem}>
+            <div key={`${fieldKey}-${index}`} className={styles.fieldListItem}>
               <div className={styles.fieldListItemLeft}>{fieldKey}</div>
               <TypeSelect
                 value={fieldType[0]}
