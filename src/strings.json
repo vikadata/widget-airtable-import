@@ -92,6 +92,10 @@
       "zh_CN": "已导入",
 			"en_US": "records"
     },
+    "reset": {
+      "zh_CN": "修改配置",
+			"en_US": "Reconfigure"
+    },
     "dot": {
       "zh_CN": "，",
 			"en_US": ","

@@ -94,6 +94,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
 
   if (isError) return (
     <div className={styles.chooseFieldError}>
+      <p>获取 airtable 数据失败：错误信息：</p>
       <h4>
         {data?.error.type} 
       </h4>
@@ -101,10 +102,10 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
       {data?.error.message}
       </p>
       <Button onClick={() => {
-        setStep(0);
+        setStep(1);
 
       }} color="primary">
-        {t(Strings.re_import)}
+        {t(Strings.reset)}
       </Button>
     </div>
   )
