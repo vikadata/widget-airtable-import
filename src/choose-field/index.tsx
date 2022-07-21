@@ -95,11 +95,10 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   if (isError) return (
     <div className={styles.chooseFieldError}>
       <Typography variant="body3"  className={styles.chooseFieldMes}>
-        <b>{data?.error.type} </b>
-      {data?.error.message}
+        {data?.error.type}
       </Typography>
       <Typography variant="h6" className={styles.chooseFieldText}>
-        {t(Strings.fetch_fail)}
+        {data?.error.message}
         <LinkButton
           href="https://vika.cn/help/intro-widget-import-from-airtable"
           target="_blank"
