@@ -22,3 +22,7 @@
 .importMain .title {
   margin-bottom: 24px;
 }
+
+.isChecked svg {
+  fill: var(--textBrandDefault);
+}

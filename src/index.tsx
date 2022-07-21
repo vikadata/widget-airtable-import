@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { initializeWidget, t, useCloudStorage, useDatasheet, useViewport } from '@vikadata/widget-sdk';
-import { Button, LinkButton } from '@vikadata/components';
+import { Button } from '@vikadata/components';
 import { Setting } from './setting';
 import styles from './index.css';
 import { IFormData } from './types';
 import { Strings, validateConfig } from './utils';
 import { ChooseField } from './choose-field';
 import { Context } from './context';
-import { isEmpty } from 'lodash';
 
 
 export const Main: React.FC = () => {
@@ -29,7 +28,6 @@ export const Main: React.FC = () => {
     }
   }, [isFullscreen])
   const errors = validateConfig(formData);
-  const isValid = isEmpty(errors);
   const handleNext = () => {
     if (!isFullscreen) {
       toggleFullscreen(true);
@@ -46,19 +44,12 @@ export const Main: React.FC = () => {
       >
         {step === 0 && (
           <div className={styles.importMain}>
-            {!isValid && (
-              <div className={styles.importMainError}>
-                {t(Strings.setting_valid)} <LinkButton component="button" onClick={() => handleNext()} >
-                  {t(Strings.update_setting)}
-                </LinkButton>
-              </div>
-            )}
             <div className={styles.title}>
               {
                 t(Strings.start_import_title)
               }
             </div>
-            <Button disabled={!isValid} color="primary" onClick={() => handleNext()}>
+            <Button  color="primary" onClick={() => handleNext()}>
               {t(Strings.start_import)}
             </Button>
           </div>

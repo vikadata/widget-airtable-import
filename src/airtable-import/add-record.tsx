@@ -143,7 +143,7 @@ export const AddRecord: React.FC<IAddRecord> = props => {
         </Button>
       )}
       {!importing && (
-        <Button onClick={() => setStep(0)} color="primary" className={style.importAddRecordBtn}>
+        <Button onClick={() => setStep(1)} color="primary" className={style.importAddRecordBtn}>
           {t(Strings.re_import)}
         </Button>
       )}
