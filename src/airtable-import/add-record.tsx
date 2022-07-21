@@ -96,7 +96,6 @@ export const AddRecord: React.FC<IAddRecord> = props => {
           i++;
         }
         setImporting(false);
-        stopRef.current = true;
       }
     }
     sync();
@@ -113,24 +112,29 @@ export const AddRecord: React.FC<IAddRecord> = props => {
       {!importing && !stopRef.current && (
         <img className={style.importAddRecordImg} src={successImg} alt="succee image"/>
       )}
-      {!importing && !stopRef.current && (
-        <Typography variant="h3" className={style.importCompleted}>
-          {t(Strings.import_completed)}
-        </Typography>
-      )}
       <Typography variant="h6"  className={style.importProcess}>
+        {!importing && !stopRef.current && (
+          <span>
+            {t(Strings.import_completed)}{t(Strings.dot)}
+          </span>
+        )}
+        {!importing && stopRef.current && (
+          <span>
+            {t(Strings.import_stoped)}{t(Strings.dot)}
+          </span>
+        )}
         {isZh ? (
-          <div>
-            数据导入中止，共 {records?.length} 行数据，已导入 
+          <span>
+            共 {records?.length} 行数据，已导入 
             <span className={style.importAddRecordSuccess}>{successCountRef.current}</span> 行、失败 
             <span className={style.importAddRecordFail}>{failCountRef.current}</span> 行
-          </div>
+          </span>
         ): (
-          <div>
-            Data import aborted，a total of {records?.length} records, 
+          <span>
+            A total of {records?.length} records, 
             <span className={style.importAddRecordSuccess}>{successCountRef.current}</span> records has been imported, 
             <span className={style.importAddRecordFail}>{failCountRef.current}</span> records failed
-          </div>
+          </span>
         )}
       </Typography>
       {importing && !stopRef.current && (
