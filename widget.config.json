@@ -13,10 +13,5 @@
     "zh-CN": "Airtable 数据导入",
     "en-US": "Airtable Import"
   },
-  "sandbox": true,
-  "authorName": "vika",
-  "authorLink": "https://vika.cn/developers",
-  "authorEmail": "developer@vikadata.com",
-  "website": "vika.cn",
-  "globalPackageId": "wpknCNAbPbgiD"
+  "sandbox": true
 }
