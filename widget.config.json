@@ -1,6 +1,6 @@
 {
-  "packageId": "wpkz6C07DNYug",
-  "spaceId": "spczxAHlFydX0",
+  "packageId": "wpk2dHzFgcsYb",
+  "spaceId": "spczdmQDfBAn5",
   "entry": "./src/index.tsx",
   "name": {
     "zh-CN": "Airtable 数据导入",
