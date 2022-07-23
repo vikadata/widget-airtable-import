@@ -3,15 +3,20 @@
   "spaceId": "spczdmQDfBAn5",
   "entry": "./src/index.tsx",
   "name": {
-    "zh-CN": "Airtable 数据导入",
-    "en-US": "Airtable Import"
+    "zh-CN": "Airtable 导入",
+    "en-US": "Import data from Airtable"
   },
   "icon": "./package_icon.png",
   "cover": "./cover.png",
   "authorIcon": "./author_icon.png",
   "description": {
-    "zh-CN": "Airtable 数据导入",
-    "en-US": "Airtable Import"
+    "zh-CN": "支持从 Airtable 导入数据到维格表中，快速开始使用维格表发展你的业务。",
+    "en-US": "Support importing data from Airtable, and quickly start using the vika to develop your business."
   },
-  "sandbox": true
+  "sandbox": true,
+  "authorName": "vika",
+  "authorLink": "https://vika.cn/developers",
+  "authorEmail": "developer@vikadata.com",
+  "website": "vika.cn",
+  "globalPackageId": "wpknCNAbPbgiD"
 }
