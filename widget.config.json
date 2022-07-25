@@ -1,6 +1,6 @@
 {
-  "packageId": "wpk2dHzFgcsYb",
-  "spaceId": "spczdmQDfBAn5",
+  "packageId": "wpkz6C07DNYug",
+  "spaceId": "spczxAHlFydX0",
   "entry": "./src/index.tsx",
   "name": {
     "zh-CN": "Airtable 导入",
@@ -16,7 +16,7 @@
   "sandbox": true,
   "authorName": "vika",
   "authorLink": "https://vika.cn/developers",
-  "authorEmail": "developer@vikadata.com",
+  "authorEmail": "wangkailang@vikadata.com",
   "website": "https://bbs.vika.cn/article/211",
-  "globalPackageId": "wpknCNAbPbgiD"
+  "globalPackageId": "wpk098vuAfpQa"
 }
