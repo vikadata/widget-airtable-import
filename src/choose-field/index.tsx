@@ -103,7 +103,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
           {typeof data?.error === 'object' ? data?.error.message : data?.error}
           </span>
           <LinkButton
-            href="https://vika.cn/help/intro-widget-import-from-airtable"
+            href="https://help.vika.cn/docs/guide/intro-widget-import-from-airtable/"
             target="_blank"
           >
             {t(Strings.help)}
