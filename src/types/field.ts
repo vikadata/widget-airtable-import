@@ -1,4 +1,4 @@
-import { FieldType } from '@vikadata/widget-sdk';
+import {FieldType} from "@apitable/widget-sdk";
 
 export interface IFieldMap {
   [key: string]: [FieldType, string[] | string | number];

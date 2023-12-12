@@ -1,6 +1,6 @@
-import { AIRTABLE_API_VERSION, AIRTABLE_URL } from '../constants';
-import queryString from 'query-string';
-import { IQuery } from '../types';
+import {AIRTABLE_API_VERSION, AIRTABLE_URL} from "../constants";
+import queryString from "query-string";
+import {IQuery} from "../types";
 
 export const getRecords = async (apiKey: string, baseId: string, tableId: string, query?: IQuery) => {
   if (!apiKey || !baseId || !tableId) return null;
@@ -11,20 +11,20 @@ export const getRecords = async (apiKey: string, baseId: string, tableId: string
   // _query['fields[]'] = 'number';
 
   const queryStr = queryString.stringify(_query);
-  
+
   const url = `${AIRTABLE_URL}/${AIRTABLE_API_VERSION}/${baseId}/${tableId}?${queryStr}`;
 
   const response = await fetch(url, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + apiKey,
-      'Host': AIRTABLE_URL
-    }
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + apiKey,
+      Host: AIRTABLE_URL,
+    },
   });
 
   const json = await response.json();
 
-  return json
-}
+  return json;
+};
