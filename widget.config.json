@@ -1,6 +1,6 @@
 {
-  "packageId": "wpkz6C07DNYug",
-  "spaceId": "spczxAHlFydX0",
+  "packageId": "wpk9PzB5q68Ek",
+  "spaceId": "spcS0eZxZ8mSA",
   "entry": "./src/index.tsx",
   "name": {
     "zh-CN": "Airtable 导入",
@@ -17,6 +17,6 @@
   "authorName": "vika",
   "authorLink": "https://vika.cn/developers",
   "authorEmail": "wangkailang@vikadata.com",
-  "website": "https://bbs.vika.cn/article/211",
+  "website": "https://help.vika.cn/docs/guide/intro-widget-import-from-airtable",
   "globalPackageId": "wpk098vuAfpQa"
 }
