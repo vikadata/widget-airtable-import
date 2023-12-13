@@ -23,7 +23,7 @@ export const GetBases = async (personalAccessToken: string) => {
       throw new Error("Unauthorized: Error Personal Access Token.");
     } else {
       const json = await response.json();
-      throw new Error(json.error.message || json.error || "Error fetching bases, please check your Personal Access Token.");
+      throw new Error(json.error.message || "Error fetching bases, please check your Personal Access Token.");
     }
   }
 
