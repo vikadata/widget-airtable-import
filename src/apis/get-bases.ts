@@ -8,25 +8,26 @@ export const GetBases = async (personalAccessToken: string) => {
 
   const url = `${AIRTABLE_URL}/${AIRTABLE_API_VERSION}/meta/bases`;
 
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${personalAccessToken}`,
-        Host: AIRTABLE_URL,
-      },
-    });
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${personalAccessToken}`,
+      Host: AIRTABLE_URL,
+    },
+  });
 
-    if (response.ok) {
-      const json = await response.json();
-      const bases = json.bases.map((base: Base) => ({id: base.id, name: base.name}));
-      return bases;
-    } else {
+  if (!response.ok) {
+    if (response.status === 401) {
       throw new Error("Unauthorized: Error Personal Access Token.");
+    } else {
+      const json = await response.json();
+      throw new Error(json.error.message || json.error || "Error fetching bases, please check your Personal Access Token.");
     }
-  } catch (e) {
-    throw new Error("Unauthorized: Error Personal Access Token.");
   }
+
+  const json = await response.json();
+  const bases = json.bases.map((base: Base) => ({id: base.id, name: base.name}));
+  return bases;
 };
