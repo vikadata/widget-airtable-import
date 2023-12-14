@@ -19,45 +19,80 @@ on:
         default: false
         type: boolean
 jobs:
-  build:
+  submit_widget_develop:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        # persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
-        fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::node_modules"
+      - uses: actions/checkout@v3
+        with:
+          # persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::node_modules"
 
-    - uses: actions/cache@v3
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-    - name: Install NPM dependencies
-      run: yarn install
+      - name: Install NPM dependencies
+        run: yarn install
 
-    - name: Get submit version
-      id: version
-      uses: ashley-taylor/read-json-property-action@v1.0
-      with:
-        path: ./package.json
-        property: version
+      - name:
+        run: |
+          echo "Modify widget.config.json"
+          sed -i "s/\"globalPackageId\": \"[a-zA-Z0-9]*\"/\"globalPackageId\": \"${{ secrets.DEVELOP_PACKAGE_ID }}\"/g" widget.config.json
+          git add widget.config.json
+          git commit -m "Modify widget.config.json"
 
-    # develop submit
-    - name: Submit Widget develop
-      continue-on-error: ${{ inputs.allow_error }}
-      run: |
-        echo "Submit Widget develop"
-        npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.DEVELOP_HOST }} --token ${{ secrets.DEVELOP_TOKEN }}
+      - name: Get submit version
+        id: version
+        uses: ashley-taylor/read-json-property-action@v1.0
+        with:
+          path: ./package.json
+          property: version
 
-    # production submit
-    - name: Submit Widget production
-      continue-on-error: ${{ inputs.allow_error }}
-      run: |
-        echo "Submit Widget production"
-        npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.PRODUCTION_HOST }} --token ${{ secrets.PRODUCTION_TOKEN }}
+      - name: Submit Widget develop
+        continue-on-error: ${{ inputs.allow_error }}
+        run: |
+          echo "Submit Widget develop"
+          npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.DEVELOP_HOST }} --token ${{ secrets.DEVELOP_TOKEN }}
+
+  submit_widget_production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::node_modules"
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install NPM dependencies
+        run: yarn install
+
+      - name: Get submit version
+        id: version
+        uses: ashley-taylor/read-json-property-action@v1.0
+        with:
+          path: ./package.json
+          property: version
+
+      # production submit
+      - name: Submit Widget production
+        continue-on-error: ${{ inputs.allow_error }}
+        run: |
+          echo "Submit Widget production"
+          npx -y @apitable/widget-cli submit --version ${{steps.version.outputs.value}} --host ${{ secrets.PRODUCTION_HOST }} --token ${{ secrets.PRODUCTION_TOKEN }}

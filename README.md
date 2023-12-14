@@ -2,20 +2,13 @@
 
 `airtable-import` 小程序，支持将 Airtable 中的数据导入到 Vika 维格表中。
 
+## 获取 Personal Access Token
 
-## 获取配置
+要使用该小程序，首先需要从你的 Airtable 账户中获取 Personal Access Token。获取后，只需将其输入，即可开始获取和导入原始数据。
 
-1. 如何获取 API Key
+你可以使用 [此链接](https://airtable.com/create/tokens) 创建和管理你的个人访问令牌。请注意，Personal Access Token 与之前使用的 API Key 不同。Airtable 已经宣布，他们将在 2024 年 1 月底停止支持 API Key。要了解更多详情，请阅读[本文](https://support.airtable.com/docs/airtable-api-key-deprecation-notice)。
 
-需要你的 Airtable API Key 才能获取数据源，Airtable API Key 获取方式可以参考 [Airtable 的官方文档](https://support.airtable.com/hc/en-us/articles/219046777) 或点击直接进入 [Airtable Account](https://airtable.com/account)获取。
-
-2. 如何获取 Base ID
-
-我们需要对应的 Airtable Base ID 才能获取数据源，Airtable Base ID 获取方式可以点击进入 [Airtable Rest API](https://airtable.com/api) 获取，首先选择想要导入的 Base，然后从 INTRODUCTION 页面复制即可。
-
-3. 如何获取 Table ID
-
-我们需要对应的 Airtable Table ID 才能获取数据源，Airtable Table ID 获取方式可以点击进入 [Airtable Rest API](https://airtable.com/api) 获取，首先选择想要导入的 Table，然后从介绍处获取即可。
+访问上面的链接后，只需点击 "Generate new token" 按钮即可创建一个新的 Generate new token。
 
 ## 支持列类型
 
@@ -37,4 +30,3 @@
 - [ ] 成员
 - [ ] 神奇关联
 - [ ] 神奇引用
-
