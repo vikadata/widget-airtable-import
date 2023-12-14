@@ -45,6 +45,8 @@ jobs:
         run: |
           echo "Modify widget.config.json"
           sed -i "s/\"globalPackageId\": \"[a-zA-Z0-9]*\"/\"globalPackageId\": \"${{ secrets.DEVELOP_PACKAGE_ID }}\"/g" widget.config.json
+          git config user.email "dev@apitable.com"
+          git config user.name "APItable"
           git add widget.config.json
           git commit -m "Modify widget.config.json"
 
