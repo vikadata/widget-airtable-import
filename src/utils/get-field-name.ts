@@ -12,8 +12,8 @@ export const getFields = (records?: IRecord[]): IFieldMap => {
         const type = getFieldType(fieldValue);
         pre[fieldKey] = [type, []];
       }
-      // 收集多选默认值，在 addField 时添加默认选项
-      // fieldValue 为数组
+      // Collect multi-select default values and add default options in addField
+      // fieldValue is array
       if (pre[fieldKey][0] === FieldType.MultiSelect) {
         const defaultOptions = union(pre[fieldKey][1], fieldValue);
         set(pre[fieldKey], 1, defaultOptions);
@@ -23,7 +23,7 @@ export const getFields = (records?: IRecord[]): IFieldMap => {
         const max = Math.max(pre[fieldKey][1], fieldValue);
         set(pre[fieldKey], 1, Math.max(max, 5));
       } else {
-        // fieldValue 为字符串
+        // fieldValue is string
         // const defaultOptions = union(pre[fieldKey][1], [fieldValue]);
         set(pre[fieldKey], 1, fieldValue);
       }

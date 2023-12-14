@@ -1,15 +1,15 @@
-import React, {useEffect, useState, useContext} from "react";
-import {Button, LinkButton, Typography, colorVars} from "@apitable/components";
-import {FormInput} from "../components/form-input";
-import {FormSelect} from "../components/form-select";
-import styles from "./index.css";
-import {t, useCloudStorage, useDatasheet} from "@apitable/widget-sdk";
-import {IFormData, IFormName, IError} from "../types";
-import {Strings, validateConfig} from "../utils";
-import {isEmpty} from "lodash";
-import {Context} from "../context";
-import {Base, Table} from "../types";
-import {GetBases, GetTables} from "../apis";
+import React, { useEffect, useState, useContext } from 'react';
+import { Button, LinkButton, Typography, colorVars } from '@apitable/components';
+import { FormInput } from '../components/form-input';
+import { FormSelect } from '../components/form-select';
+import styles from './index.css';
+import { t, useCloudStorage, useDatasheet } from '@apitable/widget-sdk';
+import { IFormData, IFormName, IError } from '../types';
+import { Strings, validateConfig } from '../utils';
+import { isEmpty } from 'lodash';
+import { Context } from '../context';
+import { Base, Table } from '../types';
+import { GetBases, GetTables } from '../apis';
 
 interface ISetting {
   errors: IError;
@@ -20,17 +20,17 @@ interface ISetting {
 }
 
 export const Setting: React.FC<ISetting> = (props) => {
-  const {errors, isBasesLoaded, setIsBasesLoaded, isTablesLoaded, setIsTablesLoaded} = props;
-  const {setStep} = useContext(Context);
+  const { errors, isBasesLoaded, setIsBasesLoaded, isTablesLoaded, setIsTablesLoaded } = props;
+  const { setStep } = useContext(Context);
   const datasheet = useDatasheet();
   const [formData, setFormData, editable] = useCloudStorage<IFormData>(`airtable-import-${datasheet?.datasheetId}`, {
-    personalAccessToken: "",
-    baseId: "",
-    tableId: "",
+    personalAccessToken: '',
+    baseId: '',
+    tableId: '',
   });
 
   if (!editable) {
-    return <div>无编辑权限</div>;
+    return <div>t(Strings.no_edit_permission)</div>;
   }
 
   const handleKeyChange = (name: IFormName) => (val: string) => {
@@ -38,8 +38,8 @@ export const Setting: React.FC<ISetting> = (props) => {
       setIsBasesLoaded(false);
       setIsTablesLoaded(false);
       setFormData({
-        [IFormName.BaseId]: "",
-        [IFormName.TableId]: "",
+        [IFormName.BaseId]: '',
+        [IFormName.TableId]: '',
         [name]: val,
       });
     } else {
@@ -64,10 +64,10 @@ export const Setting: React.FC<ISetting> = (props) => {
   }));
 
   const [errorMessages, setErrorMessages] = useState({
-    personalAccessTokenError: "",
+    personalAccessTokenError: '',
   });
 
-  // 当 personalAccessToken 更新时获取 Base 信息
+  // Get Base information when personalAccessToken is updated
   useEffect(() => {
     const load = async () => {
       if (formData.personalAccessToken) {
@@ -75,17 +75,17 @@ export const Setting: React.FC<ISetting> = (props) => {
           const bases = await GetBases(formData.personalAccessToken);
           setBases(bases);
           setIsBasesLoaded(true);
-          setErrorMessages({personalAccessTokenError: ""});
+          setErrorMessages({ personalAccessTokenError: '' });
         } catch (error) {
           setIsBasesLoaded(false);
-          setErrorMessages({personalAccessTokenError: (error as Error).message});
+          setErrorMessages({ personalAccessTokenError: (error as Error).message });
         }
       }
     };
     load();
   }, [formData.personalAccessToken]);
 
-  // 当 baseId 更新时获取 Table 信息
+  // Get Table information when baseId is updated
   useEffect(() => {
     const load = async () => {
       if (formData.baseId) {
@@ -107,7 +107,7 @@ export const Setting: React.FC<ISetting> = (props) => {
     <div className={styles.setting}>
       <Typography variant="h6" className={styles.settingTitle}>
         1. {t(Strings.setting_title)}
-        <LinkButton href="https://help.vika.cn/docs/guide/intro-widget-import-from-airtable/" target="_blank" color={colorVars.textCommonSecondary}>
+        <LinkButton href={t(Strings.help_url)} target="_blank" color={colorVars.textCommonSecondary}>
           {t(Strings.tutorial)}
         </LinkButton>
       </Typography>
@@ -119,13 +119,13 @@ export const Setting: React.FC<ISetting> = (props) => {
           value={formData.personalAccessToken}
           error={errors.personalAccessToken || errorMessages.personalAccessTokenError}
         />
-        {errors.personalAccessToken ? null : (
+        {errors.personalAccessToken || errorMessages.personalAccessTokenError ? null : (
           <>
             {isBasesLoaded && (
               <FormSelect
                 required
                 options={baseOptions}
-                label="Base ID"
+                label="Base"
                 onSelected={handleKeyChange(IFormName.BaseId)}
                 value={formData.baseId}
                 error={errors.baseId}
@@ -135,13 +135,15 @@ export const Setting: React.FC<ISetting> = (props) => {
               <FormSelect
                 required
                 options={tableOptions}
-                label="Table ID"
+                label="Table"
                 onSelected={handleKeyChange(IFormName.TableId)}
                 value={formData.tableId}
                 error={errors.tableId}
               />
             )}
-            <FormInput label={`View ID（${t(Strings.optional)}）`} onChange={handleKeyChange(IFormName.ViewId)} value={formData.viewId} />
+            {isTablesLoaded && (
+              <FormInput label={`View ID (${t(Strings.optional)})`} onChange={handleKeyChange(IFormName.ViewId)} value={formData.viewId} />
+            )}
           </>
         )}
       </div>

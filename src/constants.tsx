@@ -1,5 +1,5 @@
-import {FieldType, t} from "@apitable/widget-sdk";
-import {Strings} from "./utils/i18n";
+import { FieldType, t } from '@apitable/widget-sdk';
+import { Strings } from './utils/i18n';
 import {
   ColumnAttachmentFilled,
   ColumnAutonumberFilled,
@@ -21,9 +21,9 @@ import {
   ColumnLongtextFilled,
   ColumnPhoneFilled,
   ColumnRatingFilled,
-} from "@apitable/icons";
-import React from "react";
-import {Box, colorVars} from "@apitable/components";
+} from '@apitable/icons';
+import React from 'react';
+import { Box, colorVars } from '@apitable/components';
 
 export const FieldIconMap = {
   [FieldType.Attachment]: ColumnAttachmentFilled,
@@ -43,9 +43,9 @@ export const FieldIconMap = {
   [FieldType.LastModifiedBy]: ColumnLastmodifiedbyFilled,
 };
 
-export const AIRTABLE_URL = "https://api.airtable.com";
+export const AIRTABLE_URL = 'https://api.airtable.com';
 
-export const AIRTABLE_API_VERSION = "v0";
+export const AIRTABLE_API_VERSION = 'v0';
 
 export const FIELD_GROUPS = {
   boolean: [FieldType.Checkbox],

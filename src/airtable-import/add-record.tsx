@@ -1,22 +1,22 @@
-import {Button, Typography} from "@apitable/components";
-import {FieldType, useActiveViewId, useDatasheet, useFields, upload, IAttachmentValue, t, getLanguage, LangType} from "@apitable/widget-sdk";
-import {find, has, isEmpty} from "lodash";
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {getFileBlob, Strings} from "../utils";
-import {IFieldMap, IRecord} from "../types";
-import style from "./index.css";
-import {Context} from "../context";
-import successImg from "../../space_img_success.png";
-import {MAX_FILE_SIZE} from "../constants";
+import { Button, Typography } from '@apitable/components';
+import { FieldType, useActiveViewId, useDatasheet, useFields, upload, IAttachmentValue, t, getLanguage, LangType } from '@apitable/widget-sdk';
+import { find, has, isEmpty } from 'lodash';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { getFileBlob, Strings } from '../utils';
+import { IFieldMap, IRecord } from '../types';
+import style from './index.css';
+import { Context } from '../context';
+import successImg from '../../space_img_success.png';
+import { MAX_FILE_SIZE } from '../constants';
 
 interface IAddRecord {
   records?: IRecord[];
   fieldMap: IFieldMap;
 }
 export const AddRecord: React.FC<IAddRecord> = (props) => {
-  const {records, fieldMap} = props;
+  const { records, fieldMap } = props;
   const [importing, setImporting] = useState(false);
-  const {setStep} = useContext(Context);
+  const { setStep } = useContext(Context);
   const datasheet = useDatasheet();
   const viewId = useActiveViewId();
   const fields = useFields(viewId);
@@ -35,20 +35,20 @@ export const AddRecord: React.FC<IAddRecord> = (props) => {
           const record = records[i];
           let newRecord: object = {};
           for (const fieldName in record.fields) {
-            const field = find(fields, {name: fieldName});
+            const field = find(fields, { name: fieldName });
             if (!field || !fieldMap[fieldName]) {
-              // console.log(`${fieldName} 没有对应列`);
+              // console.log(`${fieldName} has no column`);
               continue;
             } else {
               let recordValue = record.fields[fieldName];
-              // 附件添加行：获取附件 blob => file 带文件名、文件类型 => 上传 => 添加行
-              // TODO: 要限制 blob 大小
+              // Attachment adding line: obtain attachment blob => file with file name and file type => upload => add line
+              // TODO: limit file blob size
               if (field.type === FieldType.Attachment) {
                 const files: IAttachmentValue[] = [];
                 for (let k = 0; k < recordValue.length; k++) {
                   const rv = recordValue[k];
                   const fileBlob = await getFileBlob(rv.url);
-                  // 上传小于 10MB 的文件
+                  // Upload files smaller than 10MB
                   if (fileBlob.size < MAX_FILE_SIZE) {
                     const curFile = new File([fileBlob], rv.filename, {
                       type: rv.type,
@@ -61,9 +61,9 @@ export const AddRecord: React.FC<IAddRecord> = (props) => {
                   }
                 }
                 recordValue = files;
-              } else if (field.type !== FieldType.MultiSelect && Array.isArray(recordValue) && typeof recordValue[0] === "string") {
-                recordValue = recordValue.join(",");
-              } else if (field.type !== FieldType.MultiSelect && typeof recordValue === "object") {
+              } else if (field.type !== FieldType.MultiSelect && Array.isArray(recordValue) && typeof recordValue[0] === 'string') {
+                recordValue = recordValue.join(',');
+              } else if (field.type !== FieldType.MultiSelect && typeof recordValue === 'object') {
                 recordValue = JSON.stringify(recordValue);
               }
               newRecord[field.id] = recordValue;
@@ -71,7 +71,7 @@ export const AddRecord: React.FC<IAddRecord> = (props) => {
           }
           try {
             // console.log('newRecord', newRecord);
-            // 整行为空忽略
+            // Integer line null ignore
             if (!isEmpty(newRecord)) {
               const checkRlt = await datasheet.checkPermissionsForAddRecord(newRecord);
               if (checkRlt.acceptable) {
@@ -118,7 +118,7 @@ export const AddRecord: React.FC<IAddRecord> = (props) => {
         )}
         {isZh ? (
           <span>
-            共 {records?.length} 行数据，已导入
+            {t(Strings.total)} {records?.length} {t(Strings.rows_imported)}
             <span className={style.importAddRecordSuccess}>{successCountRef.current}</span> 行、失败
             <span className={style.importAddRecordFail}>{failCountRef.current}</span> 行
           </span>

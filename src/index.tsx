@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {initializeWidget, t, useCloudStorage, useDatasheet, useViewport} from "@apitable/widget-sdk";
-import {Button} from "@apitable/components";
-import {Setting} from "./setting";
-import styles from "./index.css";
-import {IFormData} from "./types";
-import {Strings, validateConfig} from "./utils";
-import {ChooseField} from "./choose-field";
-import {Context} from "./context";
+import React, { useEffect, useState } from 'react';
+import { initializeWidget, t, useCloudStorage, useDatasheet, useViewport } from '@apitable/widget-sdk';
+import { Button } from '@apitable/components';
+import { Setting } from './setting';
+import styles from './index.css';
+import { IFormData } from './types';
+import { Strings, validateConfig } from './utils';
+import { ChooseField } from './choose-field';
+import { Context } from './context';
 
 export const Main: React.FC = () => {
   const datasheet = useDatasheet();
   const [formData] = useCloudStorage<IFormData>(`airtable-import-${datasheet?.datasheetId}`, {
-    personalAccessToken: "",
-    baseId: "",
-    tableId: "",
+    personalAccessToken: '',
+    baseId: '',
+    tableId: '',
   });
 
-  const {isFullscreen, toggleFullscreen} = useViewport();
+  const { isFullscreen, toggleFullscreen } = useViewport();
   const [step, setStep] = useState(0);
 
   const [isBasesLoaded, setIsBasesLoaded] = useState(false);

@@ -1,10 +1,10 @@
-import {Object} from "ts-toolbelt";
+import { Object } from 'ts-toolbelt';
 
 export enum IFormName {
-  PersonalAccessToken = "personalAccessToken",
-  BaseId = "baseId",
-  TableId = "tableId",
-  ViewId = "viewId",
+  PersonalAccessToken = 'personalAccessToken',
+  BaseId = 'baseId',
+  TableId = 'tableId',
+  ViewId = 'viewId',
 }
 
 export interface IFormData {

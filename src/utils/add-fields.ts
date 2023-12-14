@@ -1,6 +1,7 @@
-import {Datasheet, FieldType, IField} from "@apitable/widget-sdk";
+import {t, Datasheet, FieldType, IField} from "@apitable/widget-sdk";
 import {toPairs} from "lodash";
 import {IFieldMap} from "../types";
+import {Strings} from ".";
 
 export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
   if (!datasheet) return null;
@@ -23,7 +24,7 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
         };
       } else if (fieldType === FieldType.Rating) {
         property = {
-          max: Math.min(defaultOptions as number, 10), // 不能超过 10 个
+          max: Math.min(defaultOptions as number, 10), // No more than 10
           icon: "star",
         };
       } else if (fieldType === FieldType.Percent) {
@@ -33,14 +34,14 @@ export const addField = async (fieldMap: IFieldMap, datasheet?: Datasheet) => {
       } else if (fieldType === FieldType.Currency) {
         property = {
           precision: 2,
-          symbol: "¥",
+          symbol: t(Strings.symbol),
         };
       }
       const check = datasheet.checkPermissionsForAddField(fieldKey, fieldType, property);
       if (check.acceptable) {
         datasheet.addField(fieldKey, fieldType, property);
       } else {
-        console.error(`列 ${fieldKey} 添加失败：${check.message}`);
+        console.error(`Field ${fieldKey} add failed：${check.message}`);
       }
     })
   );

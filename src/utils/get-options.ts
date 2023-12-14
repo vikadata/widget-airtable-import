@@ -3,7 +3,7 @@ import {values} from "lodash";
 import {FIELD_GROUPS, TYPE_OPTIONS} from "../constants";
 
 export const getOptions = (value: FieldType, fieldValue: any) => {
-  // 非附件对象数据
+  // Non attachment object data
   const isObjectArr = !Array.isArray(fieldValue) && typeof fieldValue === "object" && !(fieldValue as any).filename;
   const isStr = typeof fieldValue === "string";
   if (isObjectArr) {

@@ -1,9 +1,9 @@
-import React from "react";
-import {Typography, DropdownSelect} from "@apitable/components";
-import styles from "./index.css";
+import React from 'react';
+import { Typography, DropdownSelect } from '@apitable/components';
+import styles from './index.css';
 
 interface IFormSelect {
-  options: {value: string; label: string}[];
+  options: { value: string; label: string }[];
   label: string;
   required?: boolean;
   onSelected?: (val: string) => void;
@@ -12,7 +12,7 @@ interface IFormSelect {
 }
 
 export const FormSelect: React.FC<IFormSelect> = (props) => {
-  const {options, label, onSelected, required, value, error} = props;
+  const { options, label, onSelected, required, value, error } = props;
   const handleChange = (e) => {
     const value = e.value.trim();
     onSelected?.(value);

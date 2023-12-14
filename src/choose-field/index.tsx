@@ -1,16 +1,16 @@
-import {Button, IconButton, LinkButton, Modal, showAlert, TextButton, Typography} from "@apitable/components";
-import {getRecords} from "../apis";
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {IFieldMap, IFormData, IRecord} from "../types";
-import styles from "./index.css";
-import {getFields, Strings} from "../utils";
-import {concat, keys, omit, toPairs, values} from "lodash";
-import {TypeSelect} from "../components/type-select";
-import {Context} from "../context";
-import {AirTableImport} from "../airtable-import";
-import {t, FieldType} from "@apitable/widget-sdk";
-import {DeleteOutlined} from "@apitable/icons";
-import {MAX_FIELDS_LEN} from "../constants";
+import { Button, IconButton, LinkButton, Modal, showAlert, TextButton, Typography } from '@apitable/components';
+import { getRecords } from '../apis';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { IFieldMap, IFormData, IRecord } from '../types';
+import styles from './index.css';
+import { getFields, Strings } from '../utils';
+import { concat, keys, omit, toPairs, values } from 'lodash';
+import { TypeSelect } from '../components/type-select';
+import { Context } from '../context';
+import { AirTableImport } from '../airtable-import';
+import { t, FieldType } from '@apitable/widget-sdk';
+import { DeleteOutlined } from '@apitable/icons';
+import { MAX_FIELDS_LEN } from '../constants';
 
 interface IChooseField {
   formData: IFormData;
@@ -26,23 +26,23 @@ interface IError {
 }
 
 export const ChooseField: React.FC<IChooseField> = (props) => {
-  const {formData} = props;
-  const {step, setStep} = useContext(Context);
+  const { formData } = props;
+  const { step, setStep } = useContext(Context);
   const loadRef = useRef(false);
-  // airtable api 限制必须分页获取数据，每次最多获取 100 条
-  // offset 存在表示还有数据，继续请求
+  // Airtable api limits that the data must be obtained in pages, with a maximum of 100 entries each time
+  // The existence of offset indicates that there is still data. Continue to request
   const [data, setData] = useState<IRecord[] | IError>([]);
 
   useEffect(() => {
     const load = async () => {
       loadRef.current = true;
       let fetching = true;
-      let offset = "";
+      let offset = '';
       let records: IRecord[] = [];
       while (fetching) {
         const rlt = await getRecords(formData.personalAccessToken, formData.baseId, formData.tableId, {
           offset,
-          view: formData.viewId || "",
+          view: formData.viewId || '',
         });
         if (rlt.error) {
           loadRef.current = false;
@@ -81,7 +81,7 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
     if (fieldCount > MAX_FIELDS_LEN) {
       showAlert({
         content: t(Strings.over_200_fields),
-        type: "error",
+        type: 'error',
         closable: true,
         duration: 0,
       });
@@ -93,13 +93,13 @@ export const ChooseField: React.FC<IChooseField> = (props) => {
   if (isError) {
     return (
       <div className={styles.chooseFieldError}>
-        {typeof data?.error === "object" && (
+        {typeof data?.error === 'object' && (
           <Typography variant="body3" className={styles.chooseFieldMes}>
             {data?.error.type}
           </Typography>
         )}
         <Typography variant="h6" className={styles.chooseFieldText}>
-          <span className={styles.chooseFieldErrorText}>{typeof data?.error === "object" ? data?.error.message : data?.error}</span>
+          <span className={styles.chooseFieldErrorText}>{typeof data?.error === 'object' ? data?.error.message : data?.error}</span>
           <LinkButton href="https://help.vika.cn/docs/guide/intro-widget-import-from-airtable/" target="_blank">
             {t(Strings.help)}
           </LinkButton>

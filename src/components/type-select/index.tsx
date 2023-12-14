@@ -1,9 +1,9 @@
-import {Select} from "@apitable/components";
-import React, {useMemo} from "react";
-import {getOptions} from "../../utils";
+import { Select } from '@apitable/components';
+import React, { useMemo } from 'react';
+import { getOptions } from '../../utils';
 
 export const TypeSelect: React.FC<any> = (props) => {
-  const {value, setValue, fieldValue} = props;
+  const { value, setValue, fieldValue } = props;
   const options = useMemo(() => {
     return getOptions(value, fieldValue);
   }, [value]);

@@ -1,11 +1,11 @@
-import {Typography} from "@apitable/components";
-import {t, useDatasheet} from "@apitable/widget-sdk";
-import React, {useState} from "react";
-import {useEffect} from "react";
-import {IFieldMap, IRecord} from "../types";
-import {addField, sleep, Strings} from "../utils";
-import {AddRecord} from "./add-record";
-import style from "./index.css";
+import { Typography } from '@apitable/components';
+import { t, useDatasheet } from '@apitable/widget-sdk';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { IFieldMap, IRecord } from '../types';
+import { addField, sleep, Strings } from '../utils';
+import { AddRecord } from './add-record';
+import style from './index.css';
 
 interface IAirTableImport {
   fieldMap: IFieldMap;
@@ -13,11 +13,11 @@ interface IAirTableImport {
 }
 
 export const AirTableImport: React.FC<IAirTableImport> = (props) => {
-  const {fieldMap, records} = props;
+  const { fieldMap, records } = props;
   const [importing, setImporting] = useState(true);
   const datasheet = useDatasheet();
   useEffect(() => {
-    console.log("创建列...");
+    console.log('Create field ...');
     setImporting(true);
     const sync = async () => {
       await addField(fieldMap, datasheet);
